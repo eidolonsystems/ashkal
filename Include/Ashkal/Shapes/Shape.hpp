@@ -5,6 +5,7 @@ namespace Ashkal {
 
   //! Base class for drawable shapes.
   class Shape {
+    public:
 
       virtual ~Shape();
   };

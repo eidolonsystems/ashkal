@@ -6,9 +6,9 @@ Circle::Circle() {
   m_radius = 0;
 }
 
-Circle::Circle(int radius)
+Circle::Circle(double radius)
   : m_radius(radius) {}
 
-int Circle::get_radius() const {
+double Circle::get_radius() const {
   return m_radius;
 }

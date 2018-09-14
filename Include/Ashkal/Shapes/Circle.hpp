@@ -14,12 +14,12 @@ namespace Ashkal {
       /*
         \param radius The radius of the circle.
       */
-      Circle(int radius);
+      Circle(double radius);
 
-      int get_radius() const;
+      double get_radius() const;
 
     private:
-      int m_radius;
+      double m_radius;
   };
 }
 

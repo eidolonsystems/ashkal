@@ -5,6 +5,7 @@
 namespace Ashkal {
   class Circle;
   class Line;
+  class Shape;
 };
 
 #endif

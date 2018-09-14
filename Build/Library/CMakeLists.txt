@@ -1,0 +1,22 @@
+find_package(Qt5Widgets REQUIRED)
+file(GLOB common_header_files ../../Include/Ashkal/Ashkal/*.hpp)
+file(GLOB common_source_files ../../Source/Common/*.cpp)
+file(GLOB shapes_header_files ../../Include/Ashkal/Shapes/*.hpp)
+file(GLOB shapes_source_files ../../Source/Shapes/*.cpp)
+source_group("Ashkal\\Header Files" FILES ${common_header_files})
+source_group("Ashkal\\Source Files" FILES ${common_source_files})
+source_group("Shapes\\Header Files" FILES ${shapes_header_files})
+source_group("Shapes\\Source Files" FILES ${shapes_source_files})
+file(GLOB header_files ${common_header_files} ${shapes_header_files})
+file(GLOB source_files ${common_source_files} ${shapes_source_files})
+set(resource_files ../../Resources/Resources.qrc)
+qt5_add_resources(generated_resource_files ${resource_files})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+add_library(library ${header_files} ${source_files} ${generated_resource_files})
+set_source_files_properties(${header_files} PROPERTIES HEADER_FILE_ONLY TRUE)
+set_target_properties(library PROPERTIES STATIC_LIBRARY_FLAGS_RELEASE
+  "${CMAKE_LIBRARY_FLAGS}" LINKER_LANGUAGE CXX OUTPUT_NAME ashkal)
+install(TARGETS library CONFIGURATIONS Debug
+  DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/Debug)
+install(TARGETS library CONFIGURATIONS Release
+  DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/Release)

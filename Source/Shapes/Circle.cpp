@@ -2,9 +2,8 @@
 
 using namespace Ashkal;
 
-Circle::Circle() {
-  m_radius = 0;
-}
+Circle::Circle()
+  : Circle(0) {}
 
 Circle::Circle(double radius)
   : m_radius(radius) {}

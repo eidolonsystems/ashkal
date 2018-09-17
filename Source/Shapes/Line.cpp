@@ -3,12 +3,8 @@
 
 using namespace Ashkal;
 
-Line::Line() {
-  Point point;
-  point.x = 0;
-  point.y = 0;
-  m_point = point;
-}
+Line::Line()
+  : Line({ 0, 0 }) {}
 
 Line::Line(const Point& point)
   : m_point(point) {}

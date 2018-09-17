@@ -15,7 +15,7 @@ class Viewport : public QWidget {
   public:
 
     Viewport(const Stage& stage)
-      : m_stage(&stage) {
+        : m_stage(&stage) {
       setFixedSize(SIZE, SIZE);
     }
 

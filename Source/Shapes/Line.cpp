@@ -4,7 +4,7 @@
 using namespace Ashkal;
 
 Line::Line()
-  : Line({ 0, 0 }) {}
+  : Line({0, 0}) {}
 
 Line::Line(const Point& point)
   : m_point(point) {}

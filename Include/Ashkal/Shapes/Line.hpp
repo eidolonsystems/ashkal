@@ -11,20 +11,18 @@ namespace Ashkal {
       //! Constructs a Line with the start and end points at the origin.
       Line();
 
-      //! Constructs a Line with defined start and end points.
+      //! Constructs a Line with two points, one at the origin and another
+      //! at an arbitrary point.
       /*
-        \param start The start Point of the line.
-        \param end The end Point of the line.
+        \param point The point that determines the length and angle of the Line
+                     relative to the origin.
       */
-      Line(const Point& start, const Point& end);
+      Line(const Point& point);
 
-      Point get_start_point() const;
-
-      Point get_end_point() const;
+      Point get_point() const;
 
     private:
-      Point m_start_point;
-      Point m_end_point;
+      Point m_point;
   };
 }
 

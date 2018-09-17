@@ -4,22 +4,15 @@
 using namespace Ashkal;
 
 Line::Line() {
-  Point origin;
-  origin.x = 0;
-  origin.y = 0;
-  m_start_point = origin;
-  m_end_point = origin;
+  Point point;
+  point.x = 0;
+  point.y = 0;
+  m_point = point;
 }
 
-Line::Line(const Point& start, const Point& end) {
-  m_start_point = start;
-  m_end_point = end;
-}
+Line::Line(const Point& point)
+  : m_point(point) {}
 
-Point Line::get_start_point() const {
-  return m_start_point;
-}
-
-Point Line::get_end_point() const {
-  return m_end_point;
+Point Line::get_point() const {
+  return m_point;
 }

@@ -25,10 +25,10 @@ class Viewport : public QWidget {
       for(auto& shape : m_stage->get_shapes()) {
         if(typeid(*shape.first.get()) == typeid(Line)) {
           auto s = static_cast<Line*>(shape.first.get());
-          auto start = get_qt_coordinates(s->get_start_point());
-          auto end = get_qt_coordinates(s->get_end_point());
+          auto point = get_qt_coordinates(s->get_point());
+          auto pos = get_qt_coordinates(shape.second);
           auto painter = new QPainter(this);
-          painter->drawLine(start, end);
+          painter->drawLine(pos, point);
           painter->end();
         } else if(typeid(*shape.first.get()) == typeid(Circle)) {
           auto s = static_cast<Circle*>(shape.first.get());
@@ -58,16 +58,15 @@ int main(int argc, char** argv) {
   application.setApplicationVersion("1.0");
   initialize_resources();
   Stage stage;
-  Point start;
-  start.x = 200;
-  start.y = 200;
-  Point end;
-  end.x = 400;
-  end.y = 400;
-  stage.add_shape(std::make_unique<Line>(start, end), start);
   Point pos;
-  pos.x = 25;
-  pos.y = 25;
+  pos.x = 250;
+  pos.y = 250;
+  Point point;
+  point.x = 400;
+  point.y = 400;
+  stage.add_shape(std::make_unique<Line>(point), pos);
+  pos.x = 600;
+  pos.y = 600;
   stage.add_shape(std::make_unique<Circle>(150), pos);
   auto window = new Viewport(stage);
   window->show();

@@ -2,6 +2,4 @@
 
 using namespace Ashkal;
 
-Shape::~Shape() {
-
-}
+Shape::~Shape() {}

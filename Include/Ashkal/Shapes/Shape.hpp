@@ -3,7 +3,7 @@
 
 namespace Ashkal {
 
-  //! Base class for drawable shapes.
+  //! Represents an abstract shape.
   class Shape {
     public:
 

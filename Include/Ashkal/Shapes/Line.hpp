@@ -5,6 +5,7 @@
 
 namespace Ashkal {
 
+  //! Represents a Line on a 2D plane.
   class Line : public Shape {
     public:
 

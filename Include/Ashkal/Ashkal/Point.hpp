@@ -3,6 +3,7 @@
 
 namespace Ashkal {
 
+  //! Represents a 2D point on a plane.
   struct Point {
     double x;
     double y;

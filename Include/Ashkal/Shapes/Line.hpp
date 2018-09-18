@@ -22,6 +22,8 @@ namespace Ashkal {
 
       Point get_point() const;
 
+      void accept(ShapeVisitor& visitor) const override;
+
     private:
       Point m_point;
   };

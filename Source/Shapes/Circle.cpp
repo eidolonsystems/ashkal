@@ -11,3 +11,7 @@ Circle::Circle(double radius)
 double Circle::get_radius() const {
   return m_radius;
 }
+
+void Circle::accept(ShapeVisitor& visitor) const {
+  visitor.visit(*this);
+}

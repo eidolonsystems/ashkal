@@ -12,3 +12,7 @@ Line::Line(const Point& point)
 Point Line::get_point() const {
   return m_point;
 }
+
+void Line::accept(ShapeVisitor& visitor) const {
+  visitor.visit(*this);
+}

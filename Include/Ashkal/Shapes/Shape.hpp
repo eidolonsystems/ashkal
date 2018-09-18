@@ -1,5 +1,6 @@
 #ifndef ASHKAL_SHAPE_HPP
 #define ASHKAL_SHAPE_HPP
+#include "Ashkal/Ashkal/ShapeVisitor.hpp"
 
 namespace Ashkal {
 
@@ -8,6 +9,8 @@ namespace Ashkal {
     public:
 
       virtual ~Shape() = default;
+
+      virtual void accept(ShapeVisitor& visitor) const = 0;
   };
 }
 

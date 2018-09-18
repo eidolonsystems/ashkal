@@ -18,6 +18,8 @@ namespace Ashkal {
 
       double get_radius() const;
 
+      void accept(ShapeVisitor& visitor) const override;
+
     private:
       double m_radius;
   };

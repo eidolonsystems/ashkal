@@ -1,6 +1,6 @@
 #include "Ashkal/Ashkal/RenderShapeVisitor.hpp"
 #include <QPainter>
-#include <Ashkal/Shapes/Circle.hpp>
+#include <Ashkal/Shapes/Ellipse.hpp>
 #include <Ashkal/Shapes/Line.hpp>
 
 using namespace Ashkal;
@@ -20,11 +20,11 @@ void Ashkal::render(const Shape& shape, const Point& point, QWidget* widget) {
       shape.accept(*this);
     }
 
-    void visit(const Circle& circle) override {
+    void visit(const Ellipse& ellipse) override {
       auto pos = get_qt_coordinates(m_widget, m_point);
       auto painter = QPainter(m_widget);
-      painter.drawEllipse(pos, static_cast<int>(2 * circle.get_radius()),
-        static_cast<int>(2 * circle.get_radius()));
+      painter.drawEllipse(pos, static_cast<int>(ellipse.get_width()),
+        static_cast<int>(ellipse.get_height()));
     }
 
     void visit(const Line& line) override {

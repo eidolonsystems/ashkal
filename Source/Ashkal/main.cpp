@@ -3,7 +3,7 @@
 #include "Ashkal/Ashkal/Point.hpp"
 #include "Ashkal/Ashkal/RenderShapeVisitor.hpp"
 #include "Ashkal/Ashkal/Resources.hpp"
-#include "Ashkal/Shapes/Circle.hpp"
+#include "Ashkal/Shapes/Ellipse.hpp"
 #include "Ashkal/Shapes/Line.hpp"
 #include "Ashkal/Shapes/Stage.hpp"
 
@@ -13,10 +13,10 @@ class DrawWidget : public QWidget {
   protected:
     void paintEvent(QPaintEvent* event) override {
       QWidget::paintEvent(event);
-      auto pos = Point{100, 100};
-      auto circle = Circle(200);
-      Ashkal::render(circle, pos, this);
-      auto line = Line({200, 200});
+      auto pos = Point{0, 0};
+      auto ellipse = Ellipse(200, 400);
+      Ashkal::render(ellipse, pos, this);
+      auto line = Line({1000, 1000});
       Ashkal::render(line, pos, this);
     }
 };

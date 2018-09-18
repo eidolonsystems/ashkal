@@ -12,6 +12,7 @@ namespace Ashkal {
 
       virtual void visit(const Ellipse& c) = 0;
       virtual void visit(const Line& l) = 0;
+      virtual void visit(const Rectangle& r) = 0;
   };
 }
 

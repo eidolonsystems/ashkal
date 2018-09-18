@@ -5,6 +5,7 @@
 #include "Ashkal/Ashkal/Resources.hpp"
 #include "Ashkal/Shapes/Ellipse.hpp"
 #include "Ashkal/Shapes/Line.hpp"
+#include "Ashkal/Shapes/Rectangle.hpp"
 #include "Ashkal/Shapes/Stage.hpp"
 
 using namespace Ashkal;
@@ -13,11 +14,13 @@ class DrawWidget : public QWidget {
   protected:
     void paintEvent(QPaintEvent* event) override {
       QWidget::paintEvent(event);
-      auto pos = Point{0, 0};
+      auto pos = Point{700, 700};
       auto ellipse = Ellipse(200, 400);
       Ashkal::render(ellipse, pos, this);
       auto line = Line({1000, 1000});
       Ashkal::render(line, pos, this);
+      auto rect = Rectangle(400, 500);
+      Ashkal::render(rect, pos, this);
     }
 };
 
@@ -28,7 +31,7 @@ int main(int argc, char** argv) {
   application.setApplicationVersion("1.0");
   initialize_resources();
   auto w = new DrawWidget();
-  w->setFixedSize(1000, 1000);
+  w->resize(1000, 1000);
   w->show();
   application.exec();
 }

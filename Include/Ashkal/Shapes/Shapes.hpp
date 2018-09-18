@@ -5,6 +5,7 @@
 namespace Ashkal {
   class Ellipse;
   class Line;
+  class Rectangle;
   class Shape;
 };
 

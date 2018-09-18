@@ -10,10 +10,10 @@ namespace Ashkal {
       //! Constructs a Ellipse with width and height of 0.
       Ellipse();
 
-      //! Constructs a Ellipse with a defined width and height
+      //! Constructs a Ellipse with a defined width and height.
       /*
-        \param width The width of the ellipse.
-        \param height The height of the ellipse.
+        \param width The width of the Ellipse.
+        \param height The height of the Ellipse.
       */
       Ellipse(double width, double height);
 

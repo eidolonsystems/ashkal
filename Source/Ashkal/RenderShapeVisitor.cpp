@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <Ashkal/Shapes/Ellipse.hpp>
 #include <Ashkal/Shapes/Line.hpp>
+#include <Ashkal/Shapes/Rectangle.hpp>
 
 using namespace Ashkal;
 
@@ -32,6 +33,13 @@ void Ashkal::render(const Shape& shape, const Point& point, QWidget* widget) {
       auto pos = get_qt_coordinates(m_widget, m_point);
       auto painter = QPainter(m_widget);
       painter.drawLine(pos, point);
+    }
+
+    void visit(const Rectangle& rect) override {
+      auto pos = get_qt_coordinates(m_widget, m_point);
+      auto painter = QPainter(m_widget);
+      painter.drawRect(pos.x(), pos.y(), static_cast<int>(rect.get_width()),
+        static_cast<int>(rect.get_height()));
     }
 
     Point m_point;

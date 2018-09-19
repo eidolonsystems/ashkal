@@ -7,6 +7,7 @@
 #include "Ashkal/Shapes/Line.hpp"
 #include "Ashkal/Shapes/Rectangle.hpp"
 #include "Ashkal/Shapes/Stage.hpp"
+#include "Ashkal/Shapes/Triangle.hpp"
 
 using namespace Ashkal;
 
@@ -21,6 +22,8 @@ class DrawWidget : public QWidget {
       Ashkal::render(line, pos, this);
       auto rect = Rectangle(400, 500);
       Ashkal::render(rect, pos, this);
+      auto triangle = Triangle({100, 100}, {300, 400}, {500, 100});
+      Ashkal::render(triangle, pos, this);
     }
 };
 

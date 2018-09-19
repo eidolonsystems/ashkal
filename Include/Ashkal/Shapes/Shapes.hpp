@@ -7,6 +7,7 @@ namespace Ashkal {
   class Line;
   class Rectangle;
   class Shape;
+  class Triangle;
 };
 
 #endif

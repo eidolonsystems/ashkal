@@ -18,7 +18,7 @@ class DrawWidget : public QWidget {
       auto pos = Point{150, 150};
       auto rect = Rectangle(200, 200);
       Ashkal::render(rect, pos, this);
-      auto circ = Ellipse(100, 100);
+      auto circ = make_circle(100);
       Ashkal::render(circ, pos, this);
     }
 };

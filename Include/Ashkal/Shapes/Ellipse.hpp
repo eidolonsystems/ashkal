@@ -27,6 +27,8 @@ namespace Ashkal {
       double m_width;
       double m_height;
   };
+
+  Ellipse make_circle(double radius);
 }
 
 #endif

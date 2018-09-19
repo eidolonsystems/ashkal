@@ -15,15 +15,11 @@ class DrawWidget : public QWidget {
   protected:
     void paintEvent(QPaintEvent* event) override {
       QWidget::paintEvent(event);
-      auto pos = Point{700, 700};
-      auto ellipse = Ellipse(200, 400);
-      Ashkal::render(ellipse, pos, this);
-      auto line = Line({1000, 1000});
-      Ashkal::render(line, pos, this);
-      auto rect = Rectangle(400, 500);
+      auto pos = Point{150, 150};
+      auto rect = Rectangle(200, 200);
       Ashkal::render(rect, pos, this);
-      auto triangle = Triangle({100, 100}, {300, 400}, {500, 100});
-      Ashkal::render(triangle, pos, this);
+      auto circ = Ellipse(100, 100);
+      Ashkal::render(circ, pos, this);
     }
 };
 

@@ -20,3 +20,7 @@ double Ellipse::get_height() const {
 void Ellipse::accept(ShapeVisitor& visitor) const {
   visitor.visit(*this);
 }
+
+Ellipse Ashkal::make_circle(double radius) {
+  return Ellipse(2 * radius, 2 * radius);
+}

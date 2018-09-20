@@ -23,7 +23,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       
     }
 
-    void visit(const Line& ellipse) override {
+    void visit(const Line& line) override {
       
     }
 

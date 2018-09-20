@@ -3,9 +3,11 @@
 #include "Ashkal/Ashkal/Ashkal.hpp"
 
 namespace Ashkal {
-  class Circle;
+  class Ellipse;
   class Line;
+  class Rectangle;
   class Shape;
-};
+  class Triangle;
+}
 
 #endif

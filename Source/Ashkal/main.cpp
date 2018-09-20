@@ -3,9 +3,11 @@
 #include "Ashkal/Ashkal/Point.hpp"
 #include "Ashkal/Ashkal/RenderShapeVisitor.hpp"
 #include "Ashkal/Ashkal/Resources.hpp"
-#include "Ashkal/Shapes/Circle.hpp"
+#include "Ashkal/Shapes/Ellipse.hpp"
 #include "Ashkal/Shapes/Line.hpp"
+#include "Ashkal/Shapes/Rectangle.hpp"
 #include "Ashkal/Shapes/Stage.hpp"
+#include "Ashkal/Shapes/Triangle.hpp"
 
 using namespace Ashkal;
 
@@ -13,11 +15,13 @@ class DrawWidget : public QWidget {
   protected:
     void paintEvent(QPaintEvent* event) override {
       QWidget::paintEvent(event);
-      auto pos = Point{100, 100};
-      auto circle = Circle(200);
-      Ashkal::render(circle, pos, this);
-      auto line = Line({200, 200});
-      Ashkal::render(line, pos, this);
+      auto pos = Point{150, 150};
+      auto rect = make_square(100);
+      Ashkal::render(rect, pos, this);
+      auto circ = make_circle(100);
+      Ashkal::render(circ, pos, this);
+      auto tri = Triangle({100, 100}, {200, 200}, {300, 100});
+      Ashkal::render(tri, pos, this);
     }
 };
 
@@ -28,7 +32,7 @@ int main(int argc, char** argv) {
   application.setApplicationVersion("1.0");
   initialize_resources();
   auto w = new DrawWidget();
-  w->setFixedSize(1000, 1000);
+  w->resize(1000, 1000);
   w->show();
   application.exec();
 }

@@ -1,9 +1,9 @@
 #include "Ashkal/Ashkal/RenderShapeVisitor.hpp"
 #include <QPainter>
-#include <Ashkal/Shapes/Ellipse.hpp>
-#include <Ashkal/Shapes/Line.hpp>
-#include <Ashkal/Shapes/Rectangle.hpp>
-#include <Ashkal/Shapes/Triangle.hpp>
+#include "Ashkal/Shapes/Ellipse.hpp"
+#include "Ashkal/Shapes/Line.hpp"
+#include "Ashkal/Shapes/Rectangle.hpp"
+#include "Ashkal/Shapes/Triangle.hpp"
 
 using namespace Ashkal;
 using namespace std;

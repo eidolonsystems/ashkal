@@ -11,3 +11,8 @@ void Stage::add_shape(unique_ptr<Shape> shape, const Point& point) {
 const vector<pair<unique_ptr<Shape>, Point>>& Stage::get_shapes() const {
   return m_shapes;
 }
+
+void Ashkal::render(const Stage& stage, const Point& lens,
+    const Rectangle& region, QWidget* widget) {
+  
+}

@@ -8,12 +8,10 @@ Triangle::Triangle()
 
 Triangle::Triangle(const Point& point1, const Point& point2,
     const Point& point3)
-    : m_point1(point1),
-      m_point2(point2),
-      m_point3(point3) {}
+    : m_points({point1, point2, point3}) {}
 
-array<Point, 3> Triangle::get_points() const {
-  return array<Point, 3>({m_point1, m_point2, m_point3});
+const array<Point, 3>& Triangle::get_points() const {
+  return m_points;
 }
 
 void Triangle::accept(ShapeVisitor& visitor) const {

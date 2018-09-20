@@ -16,10 +16,12 @@ class DrawWidget : public QWidget {
     void paintEvent(QPaintEvent* event) override {
       QWidget::paintEvent(event);
       auto pos = Point{150, 150};
-      auto rect = Rectangle(200, 200);
+      auto rect = make_square(100);
       Ashkal::render(rect, pos, this);
       auto circ = make_circle(100);
       Ashkal::render(circ, pos, this);
+      auto tri = Triangle({100, 100}, {200, 200}, {300, 100});
+      Ashkal::render(tri, pos, this);
     }
 };
 

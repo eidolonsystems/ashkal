@@ -27,6 +27,12 @@ namespace Ashkal {
       double m_width;
       double m_height;
   };
+
+  //! Creates a square.
+  /*
+    \param size The width and height of the square.
+  */
+  Rectangle make_square(double size);
 }
 
 #endif

@@ -8,6 +8,6 @@ namespace Ashkal {
   class Rectangle;
   class Shape;
   class Triangle;
-};
+}
 
 #endif

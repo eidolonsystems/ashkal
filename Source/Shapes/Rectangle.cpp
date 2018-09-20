@@ -20,3 +20,7 @@ double Rectangle::get_height() const {
 void Rectangle::accept(ShapeVisitor& visitor) const {
   visitor.visit(*this);
 }
+
+Rectangle Ashkal::make_square(double size) {
+  return Rectangle(size, size);
+}

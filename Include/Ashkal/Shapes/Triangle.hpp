@@ -19,14 +19,12 @@ namespace Ashkal {
       */
       Triangle(const Point& point1, const Point& point2, const Point& point3);
 
-      std::array<Point, 3> get_points() const;
+      const std::array<Point, 3>& get_points() const;
 
       void accept(ShapeVisitor& visitor) const override;
 
     private:
-      Point m_point1;
-      Point m_point2;
-      Point m_point3;
+      std::array<Point, 3> m_points;
   };
 }
 

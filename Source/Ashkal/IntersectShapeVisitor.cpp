@@ -28,12 +28,12 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     }
 
     void visit(const Rectangle& rect) override {
-      auto a_right = m_rect_pos.x + m_rect.get_width();
-      auto a_bottom = m_rect_pos.y - m_rect.get_height();
-      auto b_right = m_shape_pos.x + rect.get_width();
-      auto b_bottom = m_shape_pos.y - rect.get_height();
-      if(a_bottom > m_shape_pos.y || m_rect_pos.y < b_bottom ||
-          a_right < m_shape_pos.x || m_rect_pos.x > b_right) {
+      auto m_rect_right = m_rect_pos.x + m_rect.get_width();
+      auto m_rect_bottom = m_rect_pos.y - m_rect.get_height();
+      auto shape_right = m_shape_pos.x + rect.get_width();
+      auto shape_bottom = m_shape_pos.y - rect.get_height();
+      if(m_rect_bottom > m_shape_pos.y || m_rect_pos.y < shape_bottom ||
+          m_rect_right < m_shape_pos.x || m_rect_pos.x > shape_right) {
         return;
       }
       m_intersects = true;

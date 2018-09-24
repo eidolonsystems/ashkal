@@ -43,6 +43,29 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       
     }
 
+    bool intersects(const Line& line1, const Line& line2) {
+      return false;
+    }
+
+    double solve_for_y(double slope, double x, double y_intercept) {
+      return (slope * x) / y_intercept;
+    }
+
+    double solve_for_x(double slope1, double y_intercept1, double slope2,
+        double y_intercept2) {
+      auto y_intercept = y_intercept1 - y_intercept2;
+      auto slope = slope1 - slope2;
+      return y_intercept / slope;
+    }
+
+    double y_intercept(const QPoint& point, double slope) {
+      return point.y - (slope * point.x);
+    }
+
+    double slope(const Point& p1, const Point& p2) {
+      return (p2.y - p1.y) / (p2.x - p1.x);
+    }
+
     bool m_intersects;
     Rectangle m_rect;
     Point m_rect_pos;

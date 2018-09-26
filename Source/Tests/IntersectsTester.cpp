@@ -79,7 +79,7 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Triangle)",
     "[intersects]") {
   auto rect = Rectangle(100, 100);
   auto rect_pos = Point{200, 200};
-  auto tri = Triangle(Point{150, 150}, Point{300, 300}, Point{450, 150});
-  auto tri_pos = Point{130, 300};
+  auto tri = Triangle(Point{100, 150}, Point{250, 225}, Point{450, 150});
+  auto tri_pos = Point{150, 300};
   REQUIRE(intersects(rect, rect_pos, tri, tri_pos));
 }

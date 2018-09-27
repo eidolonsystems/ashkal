@@ -131,6 +131,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
           if(intersects(rect_line.first, rect_line.second, tri_line.first,
               tri_line.second)) {
             m_intersects = true;
+            return;
           }
         }
       }
@@ -140,12 +141,18 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         const Line& line2, const Point& line2_pos) {
       double slope1;
       double slope2;
-      if(line1.get_point().x != 0) {
+      if(line1.get_point().x == 0 && line2.get_point().x == 0) {
+        if(line1_pos.x == line2_pos.x) {
+          return true;
+        }
+        return false;
+      }
+      if(line1.get_point().y != 0) {
         slope1 = slope(line1.get_point(), line1_pos);
       } else {
         slope1 = std::numeric_limits<double>::quiet_NaN();
       }
-      if(line2.get_point().x != 0) {
+      if(line2.get_point().y != 0) {
         slope2 = slope(line2.get_point(), line2_pos);
       } else {
         slope2 = std::numeric_limits<double>::quiet_NaN();

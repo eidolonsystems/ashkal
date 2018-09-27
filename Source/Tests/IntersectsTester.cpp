@@ -55,6 +55,20 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Line When Line Coincides
   REQUIRE(intersects(rect, rect_pos, horizontal, h_pos));
 }
 
+TEST_CASE(R"(Testing Lines That Don't Intersect with a Rectangle)",
+    "[intersects]") {
+  auto rect = Rectangle(100, 100);
+  auto rect_pos = Point{200, 200};
+  auto line = Line({0, 1000});
+  auto line_pos = Point{199, 0};
+  REQUIRE(intersects(rect, rect_pos, line, line_pos) == false);
+  line_pos = Point{301, 0};
+  REQUIRE(intersects(rect, rect_pos, line, line_pos) == false);
+  line = Line({1000, 0});
+  line_pos = Point{0, 201};
+  REQUIRE(intersects(rect, rect_pos, line, line_pos) == false);
+}
+
 TEST_CASE(R"(Testing Intersection of Rectangles)", "[intersects]") {
   auto rect1 = Rectangle(100, 100);
   auto rect1_pos = Point{200, 200};

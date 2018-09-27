@@ -6,6 +6,31 @@
 
 using namespace Ashkal;
 
+namespace {
+  double solve_y(double vertical_line_pos, double slope,
+      double y_intercept) {
+    return (slope * vertical_line_pos) + y_intercept;
+  }
+
+  double solve_x(double slope1, double y_intercept1, double slope2,
+      double y_intercept2) {
+    auto y_intercept = y_intercept1 - y_intercept2;
+    auto slope = slope1 - slope2;
+    return y_intercept / slope;
+  }
+
+  double y_intercept(const Point& point, double slope) {
+    if(std::isnan(slope)) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
+    return point.y - (point.x * slope);
+  }
+
+  double slope(const Point& p1, const Point& p2) {
+    return (p2.y - p1.y) / (p2.x - p1.x);
+  }
+}
+
 bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     const Point& p2) {
   struct Visitor final : ShapeVisitor {
@@ -151,29 +176,6 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       return point.x >= m_rect_pos.x && point.x <=
         m_rect_pos.x + m_rect.get_width() && point.y <= m_rect_pos.y &&
         point.y >= m_rect_pos.y - m_rect.get_height();
-    }
-
-    double solve_y(double vertical_line_pos, double slope,
-        double y_intercept) {
-      return (slope * vertical_line_pos) + y_intercept;
-    }
-
-    double solve_x(double slope1, double y_intercept1, double slope2,
-        double y_intercept2) {
-      auto y_intercept = y_intercept1 - y_intercept2;
-      auto slope = slope1 - slope2;
-      return y_intercept / slope;
-    }
-
-    double y_intercept(const Point& point, double slope) {
-      if(std::isnan(slope)) {
-        return std::numeric_limits<double>::quiet_NaN();
-      }
-      return point.y - (point.x * slope);
-    }
-
-    double slope(const Point& p1, const Point& p2) {
-      return (p2.y - p1.y) / (p2.x - p1.x);
     }
 
     bool m_intersects;

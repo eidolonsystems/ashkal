@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 #include "Ashkal/Ashkal/IntersectShapeVisitor.hpp"
 #include "Ashkal/Ashkal/Point.hpp"
+#include "Ashkal/Shapes/Ellipse.hpp"
 #include "Ashkal/Shapes/Line.hpp"
 #include "Ashkal/Shapes/Rectangle.hpp"
 #include "Ashkal/Shapes/Triangle.hpp"
@@ -96,4 +97,12 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Triangle)",
   auto tri = Triangle(Point{100, 150}, Point{250, 225}, Point{450, 150});
   auto tri_pos = Point{150, 300};
   REQUIRE(intersects(rect, rect_pos, tri, tri_pos));
+}
+
+TEST_CASE("(Testing Intersection of Rectangle and Ellipse)", "[intersects]") {
+  auto rect = Rectangle(10, 10);
+  auto rect_pos = Point{-20, 20};
+  auto ellipse = Ellipse(900, 400);
+  auto ellipse_pos = Point{0, 0};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
 }

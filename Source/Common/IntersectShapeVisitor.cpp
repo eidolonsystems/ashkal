@@ -19,6 +19,40 @@ namespace {
     return y_intercept / slope;
   }
 
+  double solve_quadratic_x(double major_radius, double minor_radius, double slope,
+      double y_intercept) {
+    double x_squared = 0;
+    auto a = slope * 2;
+    auto b = (slope * y_intercept) + (slope * y_intercept);
+    auto c = y_intercept * y_intercept;
+    auto lcm = std::lcm(static_cast<int>(major_radius),
+      static_cast<int>(minor_radius));
+    if(major_radius != minor_radius) {
+      x_squared = lcm / major_radius;
+      a = a * (lcm / minor_radius);
+      b = b * (lcm / minor_radius);
+      c = c * (lcm / minor_radius);
+    }
+    a = x_squared + a;
+    c = c - lcm;
+    auto x1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    auto x2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    return x1;
+  }
+
+  bool within_line(double line_x, double line_pos_x, double x) {
+    if(line_x > 0) {
+      if(x >= (line_pos_x + line_x) && x <= line_pos_x) {
+        return true;
+      }
+    } else {
+      if(x >= line_pos_x && x <= (line_x + line_pos_x)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   double y_intercept(const Point& point, double slope) {
     if(std::isnan(slope)) {
       return std::numeric_limits<double>::quiet_NaN();
@@ -26,8 +60,10 @@ namespace {
     return point.y - (point.x * slope);
   }
 
-  double slope(const Point& p1, const Point& p2) {
-    return (p2.y - p1.y) / (p2.x - p1.x);
+  double slope(const Line& line, const Point& line_pos) {
+    auto point_pos = Point{line.get_point().x + line_pos.x,
+      line.get_point().y + line_pos.y};
+    return (line_pos.y - point_pos.y) / (line_pos.x - point_pos.x);
   }
 
   bool rect_contains_x(const Rectangle& rect, const Point& rect_pos,
@@ -42,9 +78,6 @@ namespace {
 
   bool rect_contains(const Rectangle& rect, const Point& rect_pos,
       const Point& point) {
-    //return point.x >= rect_pos.x && point.x <=
-    //  rect_pos.x + rect.get_width() && point.y <= rect_pos.y &&
-    //  point.y >= rect_pos.y - rect.get_height();
     return rect_contains_x(rect, rect_pos, point.x) &&
       rect_contains_y(rect, rect_pos, point.y);
   }
@@ -64,7 +97,11 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     }
 
     void visit(const Ellipse& ellipse) override {
-      
+      for(auto line : get_rect_lines()) {
+        if(intersects(line.first, line.second, ellipse, m_shape_pos)) {
+          m_intersects = true;
+        }
+      }
     }
 
     void visit(const Line& line) override {
@@ -102,7 +139,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       for(auto& l : lines) {
         auto& line = l.first;
         auto& point = l.second;
-        if(slope(line.get_point(), point) > 0) {
+        if(slope(line, point) > 0) {
           if(line.get_point().x > point.x) {
             line = Line({line.get_point().x - point.x,
               line.get_point().y - point.y});
@@ -110,7 +147,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
             line = Line({line.get_point().x - point.x,
               line.get_point().y - point.y});
           }
-        } else if(slope(line.get_point(), point) < 0) {
+        } else if(slope(line, point) < 0) {
           if(line.get_point().x > point.x) {
             line = Line({line.get_point().x - point.x,
               point.y - line.get_point().y});
@@ -137,6 +174,17 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       }
     }
 
+    bool intersects(const Line& line, const Point& line_pos,
+      const Ellipse& ellipse, const Point& ellipse_pos) {
+      auto s = slope(line, line_pos);
+      auto x = solve_quadratic_x(ellipse.get_width(), ellipse.get_height(),
+        s, y_intercept(line.get_point(), s));
+      if(within_line(line.get_point().x, line_pos.x, x)) {
+        return true;
+      }
+      return false;
+    }
+
     bool intersects(const Line& line1, const Point& line1_pos,
         const Line& line2, const Point& line2_pos) {
       double slope1;
@@ -148,12 +196,12 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         return false;
       }
       if(line1.get_point().y != 0) {
-        slope1 = slope(line1.get_point(), line1_pos);
+        slope1 = slope(line1, line1_pos);
       } else {
         slope1 = std::numeric_limits<double>::quiet_NaN();
       }
       if(line2.get_point().y != 0) {
-        slope2 = slope(line2.get_point(), line2_pos);
+        slope2 = slope(line2, line2_pos);
       } else {
         slope2 = std::numeric_limits<double>::quiet_NaN();
       }

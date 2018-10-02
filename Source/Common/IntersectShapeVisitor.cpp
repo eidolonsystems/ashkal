@@ -19,9 +19,8 @@ namespace {
     return y_intercept / slope;
   }
 
-  bool within_line(double line_x, double line_pos_x, double x) {
-    auto adjusted = line_pos_x + line_x;
-    if(x >= adjusted && x <= line_pos_x) {
+  bool within_line(double line_point, double line_pos, double value) {
+    if(value >= line_pos + line_point && value <= line_pos) {
       return true;
     }
     return false;
@@ -155,22 +154,23 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       auto minor = ellipse.get_minor_radius();
       auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
       auto a = (lcm / major) + (lcm / minor);
-      auto c = -lcm;
-      auto value = std::sqrt(-4 * a * c) / (2 * a);
+      auto b = ((-m_shape_pos.x * 2) * (lcm / major)) +
+        ((-m_shape_pos.y * 2) * (lcm / minor));
+      auto c = ((m_shape_pos.x * m_shape_pos.x * (lcm / major)) +
+        (m_shape_pos.y * m_shape_pos.y) * (lcm / minor)) - lcm;
+      auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+      auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
       if(s == 0) {
         if(within_line(line.get_point().x, line_pos.x, value) ||
-            within_line(line.get_point().x, line_pos.x, -value)) {
+            within_line(line.get_point().x, line_pos.x, value2)) {
           return true;
         }
       } else if(std::isinf(s)) {
         if(within_line(line.get_point().y, line_pos.y, value) ||
-            within_line(line.get_point().y, line_pos.y, -value)) {
+            within_line(line.get_point().y, line_pos.y, value2)) {
           return true;
         }
-      } else {
-        return false;
       }
-
       return false;
     }
 

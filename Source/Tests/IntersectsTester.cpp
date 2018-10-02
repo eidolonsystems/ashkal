@@ -105,4 +105,20 @@ TEST_CASE("(Testing Intersection of Rectangle and Ellipse)", "[intersects]") {
   auto ellipse = Ellipse(9, 4);
   auto ellipse_pos = Point{0, 0};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
+  rect = Rectangle(1, 1);
+  rect_pos = Point{5, 5};
+  ellipse = Ellipse(9, 4);
+  ellipse_pos = Point{3, 3};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
+}
+
+TEST_CASE("(Testing Rectangles and Ellipses That Don't Intersect",
+    "[intersects]") {
+  auto rect = Rectangle(1, 1);
+  auto rect_pos = Point{8, 9};
+  auto ellipse = Ellipse(9, 4);
+  auto ellipse_pos = Point{10, 5};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos) == false);
+  rect_pos = Point{5, 5};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos) == false);
 }

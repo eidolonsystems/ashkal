@@ -26,8 +26,8 @@ void Ashkal::render(const Shape& shape, const Point& point, QWidget* widget) {
     void visit(const Ellipse& ellipse) override {
       auto pos = get_qt_coordinates(m_widget, m_point);
       auto painter = QPainter(m_widget);
-      painter.drawEllipse(pos, static_cast<int>(ellipse.get_width()),
-        static_cast<int>(ellipse.get_height()));
+      painter.drawEllipse(pos, static_cast<int>(ellipse.get_major_radius()),
+        static_cast<int>(ellipse.get_minor_radius()));
     }
 
     void visit(const Line& line) override {

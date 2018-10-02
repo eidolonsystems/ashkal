@@ -19,36 +19,10 @@ namespace {
     return y_intercept / slope;
   }
 
-  double solve_quadratic_x(double major_radius, double minor_radius, double slope,
-      double y_intercept) {
-    double x_squared = 0;
-    auto a = slope * 2;
-    auto b = (slope * y_intercept) + (slope * y_intercept);
-    auto c = y_intercept * y_intercept;
-    auto lcm = std::lcm(static_cast<int>(major_radius),
-      static_cast<int>(minor_radius));
-    if(major_radius != minor_radius) {
-      x_squared = lcm / major_radius;
-      a = a * (lcm / minor_radius);
-      b = b * (lcm / minor_radius);
-      c = c * (lcm / minor_radius);
-    }
-    a = x_squared + a;
-    c = c - lcm;
-    auto x1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-    auto x2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-    return x1;
-  }
-
   bool within_line(double line_x, double line_pos_x, double x) {
-    if(line_x > 0) {
-      if(x >= (line_pos_x + line_x) && x <= line_pos_x) {
-        return true;
-      }
-    } else {
-      if(x >= line_pos_x && x <= (line_x + line_pos_x)) {
-        return true;
-      }
+    auto adjusted = line_pos_x + line_x;
+    if(x >= adjusted && x <= line_pos_x) {
+      return true;
     }
     return false;
   }
@@ -177,11 +151,26 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     bool intersects(const Line& line, const Point& line_pos,
       const Ellipse& ellipse, const Point& ellipse_pos) {
       auto s = slope(line, line_pos);
-      auto x = solve_quadratic_x(ellipse.get_width(), ellipse.get_height(),
-        s, y_intercept(line.get_point(), s));
-      if(within_line(line.get_point().x, line_pos.x, x)) {
-        return true;
+      auto major = ellipse.get_major_radius();
+      auto minor = ellipse.get_minor_radius();
+      auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
+      auto a = (lcm / major) + (lcm / minor);
+      auto c = -lcm;
+      auto value = std::sqrt(-4 * a * c) / (2 * a);
+      if(s == 0) {
+        if(within_line(line.get_point().x, line_pos.x, value) ||
+            within_line(line.get_point().x, line_pos.x, -value)) {
+          return true;
+        }
+      } else if(std::isinf(s)) {
+        if(within_line(line.get_point().y, line_pos.y, value) ||
+            within_line(line.get_point().y, line_pos.y, -value)) {
+          return true;
+        }
+      } else {
+        return false;
       }
+
       return false;
     }
 

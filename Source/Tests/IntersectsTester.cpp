@@ -100,9 +100,9 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Triangle)",
 }
 
 TEST_CASE("(Testing Intersection of Rectangle and Ellipse)", "[intersects]") {
-  auto rect = Rectangle(10, 10);
-  auto rect_pos = Point{-20, 20};
-  auto ellipse = Ellipse(900, 400);
+  auto rect = Rectangle(1, 1);
+  auto rect_pos = Point{-2, 2};
+  auto ellipse = Ellipse(9, 4);
   auto ellipse_pos = Point{0, 0};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
 }

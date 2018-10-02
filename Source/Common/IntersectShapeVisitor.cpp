@@ -73,7 +73,22 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       for(auto line : get_rect_lines()) {
         if(intersects(line.first, line.second, ellipse, m_shape_pos)) {
           m_intersects = true;
+          return;
         }
+      }
+      auto top_left = Point{m_shape_pos.x - ellipse.get_major_radius(),
+        m_shape_pos.y + ellipse.get_minor_radius()};
+      auto bottom_left = Point{top_left.x,
+        m_shape_pos.y - ellipse.get_minor_radius()};
+      auto top_right = Point{m_shape_pos.x + ellipse.get_major_radius(),
+        top_left.y};
+      auto bottom_right = Point{top_right.x, bottom_left.y};
+      if(rect_contains(m_rect, m_rect_pos, top_left) &&
+          rect_contains(m_rect, m_rect_pos, bottom_left) &&
+          rect_contains(m_rect, m_rect_pos, top_right) &&
+          rect_contains(m_rect, m_rect_pos, bottom_right)) {
+        m_intersects = true;
+        return;
       }
     }
 
@@ -154,10 +169,10 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       auto minor = ellipse.get_minor_radius();
       auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
       auto a = (lcm / major) + (lcm / minor);
-      auto b = ((-m_shape_pos.x * 2) * (lcm / major)) +
-        ((-m_shape_pos.y * 2) * (lcm / minor));
-      auto c = ((m_shape_pos.x * m_shape_pos.x * (lcm / major)) +
-        (m_shape_pos.y * m_shape_pos.y) * (lcm / minor)) - lcm;
+      auto b = ((-ellipse_pos.x * 2) * (lcm / major)) +
+        ((-ellipse_pos.y * 2) * (lcm / minor));
+      auto c = ((ellipse_pos.x * ellipse_pos.x * (lcm / major)) +
+        (ellipse_pos.y * ellipse_pos.y) * (lcm / minor)) - std::pow(lcm, 2);
       auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
       auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
       if(s == 0) {

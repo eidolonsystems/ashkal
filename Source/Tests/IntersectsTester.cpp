@@ -35,7 +35,7 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Line With Edges of
   REQUIRE(intersects(rect, rect_pos, left, left_pos));
 }
 
-TEST_CASE(R"(Testing Intersection of Rectangle with Inscribed Line)",
+TEST_CASE("Testing Intersection of Rectangle with Inscribed Line",
     "[intersects]") {
   auto rect = Rectangle(100, 100);
   auto rect_pos = Point{200, 200};
@@ -70,7 +70,7 @@ TEST_CASE(R"(Testing Lines That Don't Intersect with a Rectangle)",
   REQUIRE(intersects(rect, rect_pos, line, line_pos) == false);
 }
 
-TEST_CASE(R"(Testing Intersection of Rectangles)", "[intersects]") {
+TEST_CASE("Testing Intersection of Rectangles", "[intersects]") {
   auto rect1 = Rectangle(100, 100);
   auto rect1_pos = Point{200, 200};
   auto rect2 = Rectangle(100, 100);
@@ -81,7 +81,7 @@ TEST_CASE(R"(Testing Intersection of Rectangles)", "[intersects]") {
   REQUIRE(intersects(rect1, rect1_pos, rect3, rect3_pos));
 }
 
-TEST_CASE(R"(Testing Intersection of Rectangle with Inscribed Rectangle)",
+TEST_CASE("Testing Intersection of Rectangle with Inscribed Rectangle",
     "[intersects]") {
   auto outer_rect = Rectangle(400, 400);
   auto outer_rect_pos = Point{100, 500};
@@ -99,26 +99,40 @@ TEST_CASE(R"(Testing Intersection of Rectangle and Triangle)",
   REQUIRE(intersects(rect, rect_pos, tri, tri_pos));
 }
 
-TEST_CASE("(Testing Intersection of Rectangle and Ellipse)", "[intersects]") {
+TEST_CASE("Testing Intersection of Rectangle and Ellipse", "[intersects]") {
   auto rect = Rectangle(1, 1);
-  auto rect_pos = Point{-2, 2};
-  auto ellipse = Ellipse(9, 4);
+  auto rect_pos = Point{-1, 1};
+  auto ellipse = Ellipse(1, 1);
   auto ellipse_pos = Point{0, 0};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
-  rect = Rectangle(1, 1);
-  rect_pos = Point{5, 5};
+  rect = Rectangle(10, 10);
+  rect_pos = Point{-10, 10};
   ellipse = Ellipse(9, 4);
-  ellipse_pos = Point{3, 3};
+  ellipse_pos = Point{0, 3};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
 }
 
-TEST_CASE("(Testing Rectangles and Ellipses That Don't Intersect",
+TEST_CASE("Testing Rectangles and Ellipses That Don't Intersect",
     "[intersects]") {
   auto rect = Rectangle(1, 1);
   auto rect_pos = Point{8, 9};
   auto ellipse = Ellipse(9, 4);
   auto ellipse_pos = Point{10, 5};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos) == false);
-  rect_pos = Point{5, 5};
+  rect_pos = Point{-2, 5};
   REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos) == false);
+  rect_pos = Point{1000, 1000};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos) == false);
+}
+
+TEST_CASE("Testing Rectangle inscribed in Ellipse and Vice-Versa",
+    "[intersects]") {
+  auto rect = Rectangle(18, 10);
+  auto rect_pos = Point{2, 10};
+  auto ellipse = Ellipse(5, 2);
+  auto ellipse_pos = Point{10, 5};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
+  rect = Rectangle(4, 2);
+  rect_pos = Point{8, 6};
+  REQUIRE(intersects(rect, rect_pos, ellipse, ellipse_pos));
 }

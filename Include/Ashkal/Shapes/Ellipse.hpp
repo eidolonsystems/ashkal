@@ -13,7 +13,7 @@ namespace Ashkal {
       //! Constructs an Ellipse with a defined major and minor radius.
       /*
         \param major The major radius of the Ellipse.
-        \param mijor The minor radius of the Ellipse.
+        \param minor The minor radius of the Ellipse.
       */
       Ellipse(double major, double minor);
 

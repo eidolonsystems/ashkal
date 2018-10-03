@@ -4,6 +4,7 @@
 #include "Ashkal/Shapes/Shapes.hpp"
 
 namespace Ashkal {
+
   //! Determines if a shape is intersecting a Rectangle.
   /*
     \param a The Rectangle used for comparison.

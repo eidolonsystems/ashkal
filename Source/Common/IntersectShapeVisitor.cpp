@@ -25,29 +25,26 @@ namespace {
     return (line_pos.y - point_pos.y) / (line_pos.x - point_pos.x);
   }
 
-  bool within_line(double line_point, double line_pos, double value) {
+  bool is_within_line(double line_point, double line_pos, double value) {
     auto high = std::max(line_point, line_pos);
     auto low = std::min(line_point, line_pos);
-    if(std::clamp(value, low, high) == value) {
-      return true;
-    }
-    return false;
+    return std::clamp(value, low, high) == value;
   }
 
   std::array<std::pair<Line, Point>, 4> get_lines_from_rect(
       const Rectangle& rect, const Point& pos) {
     auto lines = std::array<std::pair<Line, Point>, 4>();
-    lines[0] = std::pair<Line, Point>(Line({rect.get_width(), 0}), pos);
-    lines[1] = std::pair<Line, Point>(Line({0, -rect.get_height()}),
-          Point{pos.x + rect.get_width(), pos.y});
-    lines[2] = std::pair<Line, Point>(Line({rect.get_width(), 0}),
-          Point{pos.x, pos.y - rect.get_height()});
-    lines[3] = std::pair<Line, Point>(Line({0, -rect.get_height()}), pos);
+    lines[0] = std::pair(Line({rect.get_width(), 0}), pos);
+    lines[1] = std::pair(Line({0, -rect.get_height()}),
+      Point{pos.x + rect.get_width(), pos.y});
+    lines[2] = std::pair(Line({rect.get_width(), 0}),
+      Point{pos.x, pos.y - rect.get_height()});
+    lines[3] = std::pair(Line({0, -rect.get_height()}), pos);
     return lines;
   }
 
   bool ellipse_intersects(const Line& line, const Point& line_pos,
-    const Ellipse& ellipse, const Point& ellipse_pos) {
+      const Ellipse& ellipse, const Point& ellipse_pos) {
     auto s = slope(line, line_pos);
     auto major = ellipse.get_major_radius();
     auto minor = ellipse.get_minor_radius();
@@ -57,16 +54,16 @@ namespace {
       ((-ellipse_pos.y * 2) * (lcm / minor));
     auto c = ((ellipse_pos.x * ellipse_pos.x * (lcm / major)) +
       (ellipse_pos.y * ellipse_pos.y) * (lcm / minor)) - std::pow(lcm, 2);
-    auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-    auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    auto root1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    auto root2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
     if(s == 0) {
-      if(within_line(line.get_point().x + line_pos.x, line_pos.x, value) ||
-          within_line(line.get_point().x + line_pos.x, line_pos.x, value2)) {
+      if(is_within_line(line.get_point().x + line_pos.x, line_pos.x, root1) ||
+          is_within_line(line.get_point().x + line_pos.x, line_pos.x, root2)) {
         return true;
       }
     } else if(std::isinf(s)) {
-      if(within_line(line.get_point().y + line_pos.y, line_pos.y, value) ||
-          within_line(line.get_point().y + line_pos.y, line_pos.y, value2)) {
+      if(is_within_line(line.get_point().y + line_pos.y, line_pos.y, root1) ||
+          is_within_line(line.get_point().y + line_pos.y, line_pos.y, root2)) {
         return true;
       }
     }
@@ -99,16 +96,14 @@ namespace {
   bool line_intersects(const Line& line1, const Point& line1_pos,
       const Line& line2, const Point& line2_pos,
       const Rectangle& rect, const Point& ref_pos) {
-    double slope1;
-    double slope2;
     if(line1.get_point().x == 0 && line2.get_point().x == 0) {
       if(line1_pos.x == line2_pos.x) {
         return true;
       }
       return false;
     }
-    slope1 = slope(line1, line1_pos);
-    slope2 = slope(line2, line2_pos);
+    auto slope1 = slope(line1, line1_pos);
+    auto slope2 = slope(line2, line2_pos);
     if(std::isinf(slope1) && std::isinf(slope2)) {
       if(line1_pos.x == line2_pos.x && rect_contains_x(rect, ref_pos,
           line1_pos.x)) {
@@ -118,16 +113,14 @@ namespace {
     }
     auto y_intercept1 = y_intercept(line1_pos, slope1);
     auto y_intercept2 = y_intercept(line2_pos, slope2);
-    double x;
     if(std::isinf(slope1)) {
       return rect_contains(rect, ref_pos,
         Point{line1_pos.x, solve_y(line1_pos.x, slope2, y_intercept2)});
     } else if(std::isinf(slope2)) {
       return rect_contains(rect, ref_pos,
         Point{line2_pos.x, solve_y(line2_pos.x, slope1, y_intercept1)});
-    } else {
-      x = solve_x(slope1, y_intercept1, slope2, y_intercept1);
     }
+    auto x = solve_x(slope1, y_intercept1, slope2, y_intercept1);
     return rect_contains_x(rect, ref_pos, x);
   }
 }
@@ -146,7 +139,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     }
 
     void visit(const Ellipse& ellipse) override {
-      for(auto line : get_lines_from_rect(m_rect, m_rect_pos)) {
+      for(auto& line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(ellipse_intersects(line.first, line.second, ellipse, m_shape_pos)) {
           m_intersects = true;
           return;
@@ -187,7 +180,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
           rect_contains(m_rect, m_rect_pos, Point{pos_x, pos_y})) {
         m_intersects = true;
       }
-      for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
+      for(auto& rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(line_intersects(rect_line.first, rect_line.second, line,
             m_shape_pos, m_rect, m_rect_pos)) {
           m_intersects = true;
@@ -213,17 +206,10 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       lines[0] = {Line({points[0]}), Point{points[1]}};
       lines[1] = {Line({points[1]}), Point{points[2]}};
       lines[2] = {Line({points[0]}), Point{points[2]}};
-      for(auto& l : lines) {
-        auto& line = l.first;
-        auto& point = l.second;
+      for(auto& [line, point] : lines) {
         if(slope(line, point) > 0) {
-          if(line.get_point().x > point.x) {
-            line = Line({line.get_point().x - point.x,
-              line.get_point().y - point.y});
-          } else {
-            line = Line({line.get_point().x - point.x,
-              line.get_point().y - point.y});
-          }
+          line = Line({line.get_point().x - point.x,
+            line.get_point().y - point.y});
         } else if(slope(line, point) < 0) {
           if(line.get_point().x > point.x) {
             line = Line({line.get_point().x - point.x,
@@ -233,15 +219,11 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
               line.get_point().y - point.y});
           }
         } else {
-          if(line.get_point().x > point.x) {
-            line = Line({line.get_point().x - point.x, 0});
-          } else {
-            line = Line({line.get_point().x - point.x, 0});
-          }
+          line = Line({line.get_point().x - point.x, 0});
         }
       }
       for(auto& tri_line : lines) {
-        for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
+        for(auto& rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
           if(line_intersects(rect_line.first, rect_line.second, tri_line.first,
               tri_line.second, m_rect, m_rect_pos)) {
             m_intersects = true;

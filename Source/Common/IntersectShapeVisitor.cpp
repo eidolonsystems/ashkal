@@ -20,7 +20,9 @@ namespace {
   }
 
   bool within_line(double line_point, double line_pos, double value) {
-    if(value >= line_pos + line_point && value <= line_pos) {
+    auto high = std::max(line_point, line_pos);
+    auto low = std::min(line_point, line_pos);
+    if(std::clamp(value, low, high) == value) {
       return true;
     }
     return false;
@@ -188,13 +190,13 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
       auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
       if(s == 0) {
-        if(within_line(line.get_point().x, line_pos.x, value) ||
-            within_line(line.get_point().x, line_pos.x, value2)) {
+        if(within_line(line.get_point().x + line_pos.x, line_pos.x, value) ||
+            within_line(line.get_point().x + line_pos.x, line_pos.x, value2)) {
           return true;
         }
       } else if(std::isinf(s)) {
-        if(within_line(line.get_point().y, line_pos.y, value) ||
-            within_line(line.get_point().y, line_pos.y, value2)) {
+        if(within_line(line.get_point().y + line_pos.y, line_pos.y, value) ||
+            within_line(line.get_point().y + line_pos.y, line_pos.y, value2)) {
           return true;
         }
       }

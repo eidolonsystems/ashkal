@@ -19,6 +19,12 @@ namespace {
     return y_intercept / slope;
   }
 
+  double slope(const Line& line, const Point& line_pos) {
+    auto point_pos = Point{line.get_point().x + line_pos.x,
+      line.get_point().y + line_pos.y};
+    return (line_pos.y - point_pos.y) / (line_pos.x - point_pos.x);
+  }
+
   bool within_line(double line_point, double line_pos, double value) {
     auto high = std::max(line_point, line_pos);
     auto low = std::min(line_point, line_pos);
@@ -28,17 +34,38 @@ namespace {
     return false;
   }
 
+  bool ellipse_intersects(const Line& line, const Point& line_pos,
+    const Ellipse& ellipse, const Point& ellipse_pos) {
+    auto s = slope(line, line_pos);
+    auto major = ellipse.get_major_radius();
+    auto minor = ellipse.get_minor_radius();
+    auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
+    auto a = (lcm / major) + (lcm / minor);
+    auto b = ((-ellipse_pos.x * 2) * (lcm / major)) +
+      ((-ellipse_pos.y * 2) * (lcm / minor));
+    auto c = ((ellipse_pos.x * ellipse_pos.x * (lcm / major)) +
+      (ellipse_pos.y * ellipse_pos.y) * (lcm / minor)) - std::pow(lcm, 2);
+    auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    if(s == 0) {
+      if(within_line(line.get_point().x + line_pos.x, line_pos.x, value) ||
+          within_line(line.get_point().x + line_pos.x, line_pos.x, value2)) {
+        return true;
+      }
+    } else if(std::isinf(s)) {
+      if(within_line(line.get_point().y + line_pos.y, line_pos.y, value) ||
+          within_line(line.get_point().y + line_pos.y, line_pos.y, value2)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   double y_intercept(const Point& point, double slope) {
     if(std::isnan(slope)) {
       return std::numeric_limits<double>::quiet_NaN();
     }
     return point.y - (point.x * slope);
-  }
-
-  double slope(const Line& line, const Point& line_pos) {
-    auto point_pos = Point{line.get_point().x + line_pos.x,
-      line.get_point().y + line_pos.y};
-    return (line_pos.y - point_pos.y) / (line_pos.x - point_pos.x);
   }
 
   bool rect_contains_x(const Rectangle& rect, const Point& rect_pos,
@@ -73,7 +100,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
 
     void visit(const Ellipse& ellipse) override {
       for(auto line : get_rect_lines()) {
-        if(intersects(line.first, line.second, ellipse, m_shape_pos)) {
+        if(ellipse_intersects(line.first, line.second, ellipse, m_shape_pos)) {
           m_intersects = true;
           return;
         }
@@ -174,33 +201,6 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
           }
         }
       }
-    }
-
-    bool intersects(const Line& line, const Point& line_pos,
-      const Ellipse& ellipse, const Point& ellipse_pos) {
-      auto s = slope(line, line_pos);
-      auto major = ellipse.get_major_radius();
-      auto minor = ellipse.get_minor_radius();
-      auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
-      auto a = (lcm / major) + (lcm / minor);
-      auto b = ((-ellipse_pos.x * 2) * (lcm / major)) +
-        ((-ellipse_pos.y * 2) * (lcm / minor));
-      auto c = ((ellipse_pos.x * ellipse_pos.x * (lcm / major)) +
-        (ellipse_pos.y * ellipse_pos.y) * (lcm / minor)) - std::pow(lcm, 2);
-      auto value = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-      auto value2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-      if(s == 0) {
-        if(within_line(line.get_point().x + line_pos.x, line_pos.x, value) ||
-            within_line(line.get_point().x + line_pos.x, line_pos.x, value2)) {
-          return true;
-        }
-      } else if(std::isinf(s)) {
-        if(within_line(line.get_point().y + line_pos.y, line_pos.y, value) ||
-            within_line(line.get_point().y + line_pos.y, line_pos.y, value2)) {
-          return true;
-        }
-      }
-      return false;
     }
 
     bool intersects(const Line& line1, const Point& line1_pos,

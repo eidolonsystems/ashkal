@@ -95,6 +95,41 @@ namespace {
     return rect_contains_x(rect, rect_pos, point.x) &&
       rect_contains_y(rect, rect_pos, point.y);
   }
+
+  bool line_intersects(const Line& line1, const Point& line1_pos,
+      const Line& line2, const Point& line2_pos,
+      const Rectangle& rect, const Point& ref_pos) {
+    double slope1;
+    double slope2;
+    if(line1.get_point().x == 0 && line2.get_point().x == 0) {
+      if(line1_pos.x == line2_pos.x) {
+        return true;
+      }
+      return false;
+    }
+    slope1 = slope(line1, line1_pos);
+    slope2 = slope(line2, line2_pos);
+    if(std::isinf(slope1) && std::isinf(slope2)) {
+      if(line1_pos.x == line2_pos.x && rect_contains_x(rect, ref_pos,
+          line1_pos.x)) {
+        return true;
+      }
+      return false;
+    }
+    auto y_intercept1 = y_intercept(line1_pos, slope1);
+    auto y_intercept2 = y_intercept(line2_pos, slope2);
+    double x;
+    if(std::isinf(slope1)) {
+      return rect_contains(rect, ref_pos,
+        Point{line1_pos.x, solve_y(line1_pos.x, slope2, y_intercept2)});
+    } else if(std::isinf(slope2)) {
+      return rect_contains(rect, ref_pos,
+        Point{line2_pos.x, solve_y(line2_pos.x, slope1, y_intercept1)});
+    } else {
+      x = solve_x(slope1, y_intercept1, slope2, y_intercept1);
+    }
+    return rect_contains_x(rect, ref_pos, x);
+  }
 }
 
 bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
@@ -154,7 +189,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       }
       for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(line_intersects(rect_line.first, rect_line.second, line,
-            m_shape_pos)) {
+            m_shape_pos, m_rect, m_rect_pos)) {
           m_intersects = true;
         }
       }
@@ -208,54 +243,12 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       for(auto& tri_line : lines) {
         for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
           if(line_intersects(rect_line.first, rect_line.second, tri_line.first,
-              tri_line.second)) {
+              tri_line.second, m_rect, m_rect_pos)) {
             m_intersects = true;
             return;
           }
         }
       }
-    }
-
-    bool line_intersects(const Line& line1, const Point& line1_pos,
-        const Line& line2, const Point& line2_pos) {
-      double slope1;
-      double slope2;
-      if(line1.get_point().x == 0 && line2.get_point().x == 0) {
-        if(line1_pos.x == line2_pos.x) {
-          return true;
-        }
-        return false;
-      }
-      if(line1.get_point().y != 0) {
-        slope1 = slope(line1, line1_pos);
-      } else {
-        slope1 = std::numeric_limits<double>::quiet_NaN();
-      }
-      if(line2.get_point().y != 0) {
-        slope2 = slope(line2, line2_pos);
-      } else {
-        slope2 = std::numeric_limits<double>::quiet_NaN();
-      }
-      if(std::isnan(slope1) && std::isnan(slope2)) {
-        if(line1_pos.x == line2_pos.x && rect_contains_x(m_rect, m_rect_pos,
-            line1_pos.x)) {
-          return true;
-        }
-        return false;
-      }
-      auto y_intercept1 = y_intercept(line1_pos, slope1);
-      auto y_intercept2 = y_intercept(line2_pos, slope2);
-      double x;
-      if(std::isnan(slope1)) {
-        return rect_contains(m_rect, m_rect_pos,
-          Point{line1_pos.x, solve_y(line1_pos.x, slope2, y_intercept2)});
-      } else if(std::isnan(slope2)) {
-        return rect_contains(m_rect, m_rect_pos,
-          Point{line2_pos.x, solve_y(line2_pos.x, slope1, y_intercept1)});
-      } else {
-        x = solve_x(slope1, y_intercept1, slope2, y_intercept1);
-      }
-      return rect_contains_x(m_rect, m_rect_pos, x);
     }
 
     bool m_intersects;

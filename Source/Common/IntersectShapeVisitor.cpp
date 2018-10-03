@@ -34,6 +34,18 @@ namespace {
     return false;
   }
 
+  std::array<std::pair<Line, Point>, 4> get_lines_from_rect(
+      const Rectangle& rect, const Point& pos) {
+    auto lines = std::array<std::pair<Line, Point>, 4>();
+    lines[0] = std::pair<Line, Point>(Line({rect.get_width(), 0}), pos);
+    lines[1] = std::pair<Line, Point>(Line({0, -rect.get_height()}),
+          Point{pos.x + rect.get_width(), pos.y});
+    lines[2] = std::pair<Line, Point>(Line({rect.get_width(), 0}),
+          Point{pos.x, pos.y - rect.get_height()});
+    lines[3] = std::pair<Line, Point>(Line({0, -rect.get_height()}), pos);
+    return lines;
+  }
+
   bool ellipse_intersects(const Line& line, const Point& line_pos,
     const Ellipse& ellipse, const Point& ellipse_pos) {
     auto s = slope(line, line_pos);
@@ -99,7 +111,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     }
 
     void visit(const Ellipse& ellipse) override {
-      for(auto line : get_rect_lines()) {
+      for(auto line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(ellipse_intersects(line.first, line.second, ellipse, m_shape_pos)) {
           m_intersects = true;
           return;
@@ -119,7 +131,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         m_intersects = true;
         return;
       }
-      auto point = get_rect_lines()[0].second;
+      auto point = get_lines_from_rect(m_rect, m_rect_pos)[0].second;
       auto n1 = std::pow(point.x - m_shape_pos.x, 2);
       auto n2 = std::pow(point.y - m_shape_pos.y, 2);
       auto d1 = std::pow(ellipse.get_major_radius(), 2);
@@ -140,7 +152,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
           rect_contains(m_rect, m_rect_pos, Point{pos_x, pos_y})) {
         m_intersects = true;
       }
-      for(auto rect_line : get_rect_lines()) {
+      for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(intersects(rect_line.first, rect_line.second, line, m_shape_pos)) {
           m_intersects = true;
         }
@@ -193,7 +205,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         }
       }
       for(auto& tri_line : lines) {
-        for(auto rect_line : get_rect_lines()) {
+        for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
           if(intersects(rect_line.first, rect_line.second, tri_line.first,
               tri_line.second)) {
             m_intersects = true;
@@ -243,19 +255,6 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         x = solve_x(slope1, y_intercept1, slope2, y_intercept1);
       }
       return rect_contains_x(m_rect, m_rect_pos, x);
-    }
-
-    std::array<std::pair<Line, Point>, 4> get_rect_lines() {
-      auto lines = std::array<std::pair<Line, Point>, 4>();
-      lines[0] = std::pair<Line, Point>(Line({m_rect.get_width(), 0}),
-        m_rect_pos);
-      lines[1] = std::pair<Line, Point>(Line({0, -m_rect.get_height()}),
-            Point{m_rect_pos.x + m_rect.get_width(), m_rect_pos.y});
-      lines[2] = std::pair<Line, Point>(Line({m_rect.get_width(), 0}),
-            Point{m_rect_pos.x, m_rect_pos.y - m_rect.get_height()});
-      lines[3] = std::pair<Line, Point>(Line({0, -m_rect.get_height()}),
-        m_rect_pos);
-      return lines;
     }
 
     bool m_intersects;

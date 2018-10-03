@@ -153,7 +153,8 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         m_intersects = true;
       }
       for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
-        if(intersects(rect_line.first, rect_line.second, line, m_shape_pos)) {
+        if(line_intersects(rect_line.first, rect_line.second, line,
+            m_shape_pos)) {
           m_intersects = true;
         }
       }
@@ -206,7 +207,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       }
       for(auto& tri_line : lines) {
         for(auto rect_line : get_lines_from_rect(m_rect, m_rect_pos)) {
-          if(intersects(rect_line.first, rect_line.second, tri_line.first,
+          if(line_intersects(rect_line.first, rect_line.second, tri_line.first,
               tri_line.second)) {
             m_intersects = true;
             return;
@@ -215,7 +216,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       }
     }
 
-    bool intersects(const Line& line1, const Point& line1_pos,
+    bool line_intersects(const Line& line1, const Point& line1_pos,
         const Line& line2, const Point& line2_pos) {
       double slope1;
       double slope2;

@@ -90,6 +90,18 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
         m_intersects = true;
         return;
       }
+      auto point = get_rect_lines()[0].second;
+      auto n1 = std::pow(point.x - m_shape_pos.x, 2);
+      auto n2 = std::pow(point.y - m_shape_pos.y, 2);
+      auto d1 = std::pow(ellipse.get_major_radius(), 2);
+      auto d2 = std::pow(ellipse.get_minor_radius(), 2);
+      auto lcm = std::lcm(static_cast<int>(d1), static_cast<int>(d2));
+      n1 = (lcm / d1) * n1;
+      n2 = (lcm / d2) * n2;
+      auto value = (n1 + n2) / lcm;
+      if(value <= 1) {
+        m_intersects = true;
+      }
     }
 
     void visit(const Line& line) override {

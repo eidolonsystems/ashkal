@@ -45,17 +45,20 @@ namespace {
 
   bool ellipse_intersects(const Line& line, const Point& line_pos,
       const Ellipse& ellipse, const Point& ellipse_pos) {
-    auto s = slope(line, line_pos);
     auto major = ellipse.get_major_radius();
     auto minor = ellipse.get_minor_radius();
-    auto lcm = std::lcm(static_cast<int>(major), static_cast<int>(minor));
-    auto a = (lcm / major) + (lcm / minor);
-    auto b = ((-ellipse_pos.x * 2) * (lcm / major)) +
-      ((-ellipse_pos.y * 2) * (lcm / minor));
-    auto c = ((ellipse_pos.x * ellipse_pos.x * (lcm / major)) +
-      (ellipse_pos.y * ellipse_pos.y) * (lcm / minor)) - std::pow(lcm, 2);
+    auto d1 = std::pow(major, 2);
+    auto d2 = std::pow(minor, 2);
+    auto denominator = d1 * d2;
+    auto a = (d1 + d2) / denominator;
+    auto b = (((-ellipse_pos.x * 2) * d2) +
+      ((-ellipse_pos.y * 2) * d1)) / denominator;
+    auto c = (((-ellipse_pos.x * -ellipse_pos.x) * d2) +
+      ((-ellipse_pos.y * -ellipse_pos.y) * d1) - denominator - 1) /
+      denominator;
     auto root1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
     auto root2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
+    auto s = slope(line, line_pos);
     if(s == 0) {
       if(is_within_line(line.get_point().x + line_pos.x, line_pos.x, root1) ||
           is_within_line(line.get_point().x + line_pos.x, line_pos.x, root2)) {
@@ -164,10 +167,10 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       auto n2 = std::pow(point.y - m_shape_pos.y, 2);
       auto d1 = std::pow(ellipse.get_major_radius(), 2);
       auto d2 = std::pow(ellipse.get_minor_radius(), 2);
-      auto lcm = std::lcm(static_cast<int>(d1), static_cast<int>(d2));
-      n1 = (lcm / d1) * n1;
-      n2 = (lcm / d2) * n2;
-      auto value = (n1 + n2) / lcm;
+      n1 = n1 * d2;
+      n2 = n2 * d1;
+      auto denominator = d1 * d2;
+      auto value = (n1 + n2) / denominator;
       if(value <= 1) {
         m_intersects = true;
       }

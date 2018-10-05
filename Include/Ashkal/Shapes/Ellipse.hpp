@@ -7,25 +7,25 @@ namespace Ashkal {
   class Ellipse : public Shape {
     public:
 
-      //! Constructs an Ellipse with width and height of 0.
+      //! Constructs an Ellipse with radius 0.
       Ellipse();
 
-      //! Constructs an Ellipse with a defined width and height.
+      //! Constructs an Ellipse with a defined major and minor radius.
       /*
-        \param width The width of the Ellipse.
-        \param height The height of the Ellipse.
+        \param major The major radius of the Ellipse.
+        \param minor The minor radius of the Ellipse.
       */
-      Ellipse(double width, double height);
+      Ellipse(double major, double minor);
 
-      double get_width() const;
+      double get_major_radius() const;
 
-      double get_height() const;
+      double get_minor_radius() const;
 
       void accept(ShapeVisitor& visitor) const override;
 
     private:
-      double m_width;
-      double m_height;
+      double m_major_radius;
+      double m_minor_radius;
   };
 
   Ellipse make_circle(double radius);

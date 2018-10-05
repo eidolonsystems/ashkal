@@ -18,6 +18,9 @@ namespace Ashkal {
     private:
       std::vector<std::pair<std::unique_ptr<Shape>, Point>> m_shapes;
   };
+
+  void render(const Stage& stage, const Point& lens, const Rectangle& region,
+    QWidget* widget);
 }
 
 #endif

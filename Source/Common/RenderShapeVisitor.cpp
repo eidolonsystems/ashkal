@@ -1,9 +1,9 @@
 #include "Ashkal/Ashkal/RenderShapeVisitor.hpp"
 #include <QPainter>
-#include <Ashkal/Shapes/Ellipse.hpp>
-#include <Ashkal/Shapes/Line.hpp>
-#include <Ashkal/Shapes/Rectangle.hpp>
-#include <Ashkal/Shapes/Triangle.hpp>
+#include "Ashkal/Shapes/Ellipse.hpp"
+#include "Ashkal/Shapes/Line.hpp"
+#include "Ashkal/Shapes/Rectangle.hpp"
+#include "Ashkal/Shapes/Triangle.hpp"
 
 using namespace Ashkal;
 using namespace std;
@@ -24,10 +24,12 @@ void Ashkal::render(const Shape& shape, const Point& point, QWidget* widget) {
     }
 
     void visit(const Ellipse& ellipse) override {
+      auto rendered_pos = Point{m_point.x + ellipse.get_major_radius(),
+        m_point.y + ellipse.get_minor_radius()};
       auto pos = get_qt_coordinates(m_widget, m_point);
       auto painter = QPainter(m_widget);
-      painter.drawEllipse(pos, static_cast<int>(ellipse.get_width()),
-        static_cast<int>(ellipse.get_height()));
+      painter.drawEllipse(pos, static_cast<int>(ellipse.get_major_radius()),
+        static_cast<int>(ellipse.get_minor_radius()));
     }
 
     void visit(const Line& line) override {

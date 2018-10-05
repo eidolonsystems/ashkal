@@ -9,6 +9,9 @@ namespace Ashkal {
   class Camera {
     public:
 
+      //! Constructs a Camera with a region and position of (0, 0);
+      Camera();
+
       //! Constructs a Camera.
       /*
         \param region Defines the width and height of the drawable region.

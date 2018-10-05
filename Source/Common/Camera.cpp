@@ -2,6 +2,9 @@
 
 using namespace Ashkal;
 
+Camera::Camera()
+  : Camera(Rectangle(0, 0), Point{0, 0}) {}
+
 Camera::Camera(const Rectangle& region, const Point& pos)
     : m_region(region), m_pos(pos) {}
 

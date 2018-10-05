@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QKeyEvent>
 #include <QWidget>
 #include "Ashkal/Ashkal/Camera.hpp"
 #include "Ashkal/Ashkal/IntersectShapeVisitor.hpp"
@@ -16,22 +17,23 @@ class DrawManager : public QWidget {
   public:
     DrawManager(const Stage& stage)
         : m_stage(&stage),
-          m_camera(Rectangle(1000, 1000), Point{0, 0}) {
-      setFixedSize(1000, 1000);
+          m_camera(Rectangle(1000, 1000), Point{500, 500}) {
+      resize(1000, 1000);
     }
 
   protected:
     void paintEvent(QPaintEvent* event) override {
-      for(auto& [shape, pos] : m_stage->get_shapes()) {
-        auto region = m_camera.get_region();
-        auto camera_pos = Point{
-          m_camera.get_pos().x - (region.get_width() / 2),
-          m_camera.get_pos().y - (region.get_height() / 2)};
-        if(Ashkal::intersects(m_camera.get_region(), m_camera.get_pos(),
-           *shape, pos)) {
-          Ashkal::render(*shape, pos, this);
-        }
+      Ashkal::render(*m_stage, m_camera, static_cast<QWidget*>(this));
+    }
+
+    void keyReleaseEvent(QKeyEvent* event) override {
+      if(event->key() == Qt::Key_Up) {
+        m_camera.set_region(Rectangle(700, 700));
+      } else if(event->key() == Qt::Key_Down) {
+        m_camera.set_region(Rectangle(1000, 1000));
+        m_camera.set_pos(Point{500, 500});
       }
+      repaint();
     }
 
   private:
@@ -47,8 +49,6 @@ int main(int argc, char** argv) {
   initialize_resources();
   auto stage = Stage();
   stage.add_shape(std::make_unique<Rectangle>(400, 400), Point{500, 500});
-  stage.add_shape(std::make_unique<Triangle>(
-    Point{100, 800}, Point{1200, 1200}, Point{200, 200}), Point{});
   auto w = new DrawManager(stage);
   w->show();
   application.exec();

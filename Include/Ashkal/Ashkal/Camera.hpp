@@ -18,7 +18,11 @@ namespace Ashkal {
 
       const Rectangle& get_region() const;
 
+      void set_region(const Rectangle& region);
+
       const Point& get_pos() const;
+
+      void set_pos(const Point& pos);
 
     private:
       Rectangle m_region;

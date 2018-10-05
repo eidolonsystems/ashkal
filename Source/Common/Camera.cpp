@@ -9,6 +9,14 @@ const Rectangle& Camera::get_region() const {
   return m_region;
 }
 
+void Camera::set_region(const Rectangle& region) {
+  m_region = region;
+}
+
 const Point& Camera::get_pos() const {
   return m_pos;
+}
+
+void Camera::set_pos(const Point& pos) {
+  m_pos = pos;
 }

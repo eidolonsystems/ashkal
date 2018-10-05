@@ -45,8 +45,8 @@ namespace {
 
   bool ellipse_intersects(const Line& line, const Point& line_pos,
       const Ellipse& ellipse, const Point& ellipse_pos) {
-    auto major = ellipse.get_major_radius();
-    auto minor = ellipse.get_minor_radius();
+    auto major = ellipse.get_x_radius();
+    auto minor = ellipse.get_y_radius();
     auto d1 = std::pow(major, 2);
     auto d2 = std::pow(minor, 2);
     auto denominator = d1 * d2;
@@ -148,11 +148,11 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
           return;
         }
       }
-      auto top_left = Point{m_shape_pos.x - ellipse.get_major_radius(),
-        m_shape_pos.y + ellipse.get_minor_radius()};
+      auto top_left = Point{m_shape_pos.x - ellipse.get_x_radius(),
+        m_shape_pos.y + ellipse.get_y_radius()};
       auto bottom_left = Point{top_left.x,
-        m_shape_pos.y - ellipse.get_minor_radius()};
-      auto top_right = Point{m_shape_pos.x + ellipse.get_major_radius(),
+        m_shape_pos.y - ellipse.get_y_radius()};
+      auto top_right = Point{m_shape_pos.x + ellipse.get_x_radius(),
         top_left.y};
       auto bottom_right = Point{top_right.x, bottom_left.y};
       if(rect_contains(m_rect, m_rect_pos, top_left) &&
@@ -165,8 +165,8 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       auto point = get_lines_from_rect(m_rect, m_rect_pos)[0].second;
       auto n1 = std::pow(point.x - m_shape_pos.x, 2);
       auto n2 = std::pow(point.y - m_shape_pos.y, 2);
-      auto d1 = std::pow(ellipse.get_major_radius(), 2);
-      auto d2 = std::pow(ellipse.get_minor_radius(), 2);
+      auto d1 = std::pow(ellipse.get_x_radius(), 2);
+      auto d2 = std::pow(ellipse.get_y_radius(), 2);
       n1 = n1 * d2;
       n2 = n2 * d1;
       auto denominator = d1 * d2;

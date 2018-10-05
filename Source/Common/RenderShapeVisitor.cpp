@@ -24,13 +24,14 @@ void Ashkal::render(const Shape& shape, const Point& point, QWidget* widget) {
     }
 
     void visit(const Ellipse& ellipse) override {
-      auto rendered_pos = Point{m_point.x + ellipse.get_major_radius(),
-        m_point.y + ellipse.get_minor_radius()};
-      auto pos = get_qt_coordinates(m_widget, m_point);
+      auto rendered_pos = Point{m_point.x - ellipse.get_x_radius(),
+        m_point.y + ellipse.get_y_radius()};
+      auto pos = get_qt_coordinates(m_widget, rendered_pos);
       auto painter = QPainter(m_widget);
-      painter.drawEllipse(pos, static_cast<int>(ellipse.get_major_radius()),
-        static_cast<int>(ellipse.get_minor_radius()));
-    }
+      painter.drawEllipse(pos.x(), pos.y(),
+        static_cast<int>(ellipse.get_x_radius() * 2),
+        static_cast<int>(ellipse.get_y_radius() * 2));
+     }
 
     void visit(const Line& line) override {
       auto point = get_qt_coordinates(m_widget, line.get_point());

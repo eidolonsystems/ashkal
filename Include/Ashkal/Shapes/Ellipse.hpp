@@ -10,22 +10,22 @@ namespace Ashkal {
       //! Constructs an Ellipse with radius 0.
       Ellipse();
 
-      //! Constructs an Ellipse with a defined major and minor radius.
+      //! Constructs an Ellipse with a defined x and y radius.
       /*
-        \param major The major radius of the Ellipse.
-        \param minor The minor radius of the Ellipse.
+        \param x The x radius of the Ellipse.
+        \param y The y radius of the Ellipse.
       */
-      Ellipse(double major, double minor);
+      Ellipse(double x, double y);
 
-      double get_major_radius() const;
+      double get_x_radius() const;
 
-      double get_minor_radius() const;
+      double get_y_radius() const;
 
       void accept(ShapeVisitor& visitor) const override;
 
     private:
-      double m_major_radius;
-      double m_minor_radius;
+      double m_x_radius;
+      double m_y_radius;
   };
 
   Ellipse make_circle(double radius);

@@ -52,7 +52,7 @@ namespace {
     auto denominator = d1 * d2;
     auto a = (d1 + d2) / denominator;
     auto b = (((-ellipse_pos.x * 2) * d2) +
-      ((-ellipse_pos.y * 2) * d1)) / denominator;
+      ((2 * -ellipse_pos.y) * d1)) / denominator;
     auto c = (((-ellipse_pos.x * -ellipse_pos.x) * d2) +
       ((-ellipse_pos.y * -ellipse_pos.y) * d1) - denominator - 1) /
       denominator;

@@ -3,8 +3,8 @@
 #include <QWidget>
 #include "Ashkal/Ashkal/Camera.hpp"
 #include "Ashkal/Ashkal/Point.hpp"
-#include "Ashkal/Shapes/Stage.hpp"
 #include "Ashkal/Shapes/Shape.hpp"
+#include "Ashkal/Shapes/Stage.hpp"
 
 namespace Ashkal {
 

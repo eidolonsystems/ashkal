@@ -52,6 +52,8 @@ int main(int argc, char** argv) {
   stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{50, 650});
   stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{350, 650});
   stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{650, 650});
+  stage.add_shape(std::make_unique<Triangle>(Point{100, 900}, Point{100, 700},
+    Point{200, 800}), Point{500, 500});
   auto w = new DrawManager(stage);
   w->show();
   application.exec();

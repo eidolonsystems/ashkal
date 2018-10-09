@@ -26,7 +26,7 @@ namespace {
     auto top = camera.get_pos().y - (camera.get_region().get_height() / 2);
     auto bottom = camera.get_pos().y + (camera.get_region().get_height() / 2);
     auto x = mapTo(point.x, left, right, 0, width - 1);
-    auto y = mapTo(point.y, top, bottom, 0, height - 1);
+    auto y = mapTo(height - point.y, top, bottom, 0, height - 1);
     return QPoint(static_cast<int>(x), static_cast<int>(y));
   }
 }
@@ -73,7 +73,8 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
       auto& points = triangle.get_points();
       auto qt_points = std::array<QPoint, 3>();
       for(auto i = 0; i < 3; ++i) {
-        qt_points[i] = getQtCoordinates(m_widget, points[i]);
+        qt_points[i] = translateStageToView(points[i], m_camera,
+          m_widget->width(), m_widget->height());
       }
       auto painter = QPainter(m_widget);
       painter.drawPolygon(qt_points.data(), 3);

@@ -15,12 +15,19 @@ namespace {
       widget->height() - static_cast<int>(point.y));
   }
 
+  double mapTo(double value, double a1, double a2, double b1, double b2) {
+    return ((value - a1) * ((b2 - b1) / (a2 - a1))) + b1;
+  }
+
   QPoint translateStageToView(const Point& point, const Camera& camera,
       int width, int height) {
-    auto h = height / camera.get_region().get_height();
-    auto w = width / camera.get_region().get_width();
-    return QPoint(static_cast<int>(point.x * w),
-      height - static_cast<int>(point.y * h));
+    auto left = camera.get_pos().x - (camera.get_region().get_width() / 2);
+    auto right = camera.get_pos().x + (camera.get_region().get_width() / 2);
+    auto top = camera.get_pos().y - (camera.get_region().get_height() / 2);
+    auto bottom = camera.get_pos().y + (camera.get_region().get_height() / 2);
+    auto x = mapTo(point.x, left, right, 0, width - 1);
+    auto y = mapTo(point.y, top, bottom, 0, height - 1);
+    return QPoint(static_cast<int>(x), static_cast<int>(y));
   }
 }
 

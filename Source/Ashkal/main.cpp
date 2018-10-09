@@ -31,7 +31,8 @@ class DrawManager : public QWidget {
         m_camera.set_region(Rectangle(700, 700));
       } else if(event->key() == Qt::Key_Down) {
         m_camera.set_region(Rectangle(1000, 1000));
-        m_camera.set_pos(Point{500, 500});
+      } else if(event->key() == Qt::Key_Left) {
+        m_camera.set_region(Rectangle(2000, 2000));
       }
       repaint();
     }
@@ -48,7 +49,9 @@ int main(int argc, char** argv) {
   application.setApplicationVersion("1.0");
   initialize_resources();
   auto stage = Stage();
-  stage.add_shape(std::make_unique<Rectangle>(400, 400), Point{500, 500});
+  stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{50, 650});
+  stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{350, 650});
+  stage.add_shape(std::make_unique<Rectangle>(300, 300), Point{650, 650});
   auto w = new DrawManager(stage);
   w->show();
   application.exec();

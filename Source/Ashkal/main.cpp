@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
   stage.add_shape(std::make_unique<Triangle>(Point{100, 900}, Point{100, 700},
     Point{200, 800}), Point{500, 500});
   stage.add_shape(std::make_unique<Line>(Point{900, 900}), Point{100, 100});
+  stage.add_shape(std::make_unique<Ellipse>(450, 200), Point{500, 500});
   auto w = new DrawManager(stage);
   w->show();
   application.exec();

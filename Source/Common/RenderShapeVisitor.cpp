@@ -10,11 +10,6 @@ using namespace Ashkal;
 using namespace std;
 
 namespace {
-  QPoint getQtCoordinates(QWidget* widget, const Point& point) {
-    return QPoint(static_cast<int>(point.x),
-      widget->height() - static_cast<int>(point.y));
-  }
-
   double mapTo(double value, double a1, double a2, double b1, double b2) {
     return ((value - a1) * ((b2 - b1) / (a2 - a1))) + b1;
   }
@@ -43,13 +38,16 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
     }
 
     void visit(const Ellipse& ellipse) override {
-      auto rendered_pos = Point{m_point.x - ellipse.get_x_radius(),
-        m_point.y + ellipse.get_y_radius()};
-      auto pos = getQtCoordinates(m_widget, rendered_pos);
+      auto pos = translateStageToView(m_point, m_camera, m_widget->width(),
+        m_widget->height());
+      auto x_ratio = m_widget->width() / m_camera.get_region().get_width();
+      pos.setX(pos.x() - static_cast<int>(ellipse.get_x_radius() * x_ratio));
+      auto y_ratio = m_widget->height() / m_camera.get_region().get_height();
+      pos.setY(pos.y() - static_cast<int>(ellipse.get_y_radius() * y_ratio));
       auto painter = QPainter(m_widget);
       painter.drawEllipse(pos.x(), pos.y(),
-        static_cast<int>(ellipse.get_x_radius() * 2),
-        static_cast<int>(ellipse.get_y_radius() * 2));
+        static_cast<int>(ellipse.get_x_radius() * x_ratio) * 2,
+        static_cast<int>(ellipse.get_y_radius() * y_ratio) * 2);
      }
 
     void visit(const Line& line) override {

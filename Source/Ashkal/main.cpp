@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <QKeyEvent>
+#include <QScrollEvent>
 #include <QWidget>
 #include "Ashkal/Ashkal/Camera.hpp"
 #include "Ashkal/Ashkal/IntersectShapeVisitor.hpp"
@@ -26,18 +26,45 @@ class DrawManager : public QWidget {
       Ashkal::render(*m_stage, m_camera, static_cast<QWidget*>(this));
     }
 
-    void keyReleaseEvent(QKeyEvent* event) override {
-      if(event->key() == Qt::Key_Up) {
-        m_camera.set_region(Rectangle(700, 700));
-      } else if(event->key() == Qt::Key_Down) {
-        m_camera.set_region(Rectangle(1000, 1000));
-      } else if(event->key() == Qt::Key_Left) {
-        m_camera.set_region(Rectangle(2000, 2000));
+    void mouseMoveEvent(QMouseEvent* event) override {
+      if(m_is_dragging) {
+        auto pos = m_camera.get_pos();
+        m_camera.set_pos({pos.x + (m_last_pos.x() - event->pos().x()),
+          pos.y + (m_last_pos.y() - event->pos().y())});
+        m_last_pos = event->pos();
+        repaint();
+      }
+    }
+
+    void mousePressEvent(QMouseEvent* event) override {
+      if(event->button() == Qt::LeftButton) {
+        m_is_dragging = true;
+        m_last_pos = event->pos();
+      }
+    }
+
+    void mouseReleaseEvent(QMouseEvent* event) override {
+      if(event->button() == Qt::LeftButton) {
+        m_is_dragging = false;
+      }
+    }
+
+    void wheelEvent(QWheelEvent* event) override {
+      auto region = m_camera.get_region();
+      if(event->angleDelta().y() > 0) {
+        m_camera.set_region({region.get_width() - ZOOM_STEP,
+          region.get_height() - ZOOM_STEP});
+      } else if(event->angleDelta().y() < 0) {
+        m_camera.set_region({region.get_width() + ZOOM_STEP,
+          region.get_height() + ZOOM_STEP});
       }
       repaint();
     }
 
   private:
+    const int ZOOM_STEP = 100;
+    QPoint m_last_pos;
+    bool m_is_dragging;
     Camera m_camera;
     const Stage* m_stage;
 };

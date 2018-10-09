@@ -53,8 +53,10 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
      }
 
     void visit(const Line& line) override {
-      auto point = getQtCoordinates(m_widget, line.get_point());
-      auto pos = getQtCoordinates(m_widget, m_point);
+      auto point = translateStageToView(line.get_point(), m_camera,
+        m_widget->width(), m_widget->height());
+      auto pos = translateStageToView(m_point, m_camera, m_widget->width(),
+        m_widget->height());
       auto painter = QPainter(m_widget);
       painter.drawLine(pos, point);
     }

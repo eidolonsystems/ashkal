@@ -46,8 +46,8 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
       pos.setY(pos.y() - static_cast<int>(ellipse.get_y_radius() * y_ratio));
       auto painter = QPainter(m_widget);
       painter.drawEllipse(pos.x(), pos.y(),
-        static_cast<int>(ellipse.get_x_radius() * x_ratio) * 2,
-        static_cast<int>(ellipse.get_y_radius() * y_ratio) * 2);
+        static_cast<int>(ellipse.get_x_radius() * x_ratio * 2),
+        static_cast<int>(ellipse.get_y_radius() * y_ratio * 2));
      }
 
     void visit(const Line& line) override {
@@ -72,12 +72,13 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
     void visit(const Triangle& triangle) override {
       auto& points = triangle.get_points();
       auto qt_points = std::array<QPoint, 3>();
-      for(auto i = 0; i < 3; ++i) {
-        qt_points[i] = translateStageToView(points[i], m_camera,
-          m_widget->width(), m_widget->height());
-      }
+      std::transform(points.begin(), points.end(), qt_points.begin(),
+        [&] (const auto& point) {
+          return translateStageToView(point, m_camera, m_widget->width(),
+            m_widget->height());
+        });
       auto painter = QPainter(m_widget);
-      painter.drawPolygon(qt_points.data(), 3);
+      painter.drawPolygon(qt_points.data(), qt_points.size());
     }
 
     Point m_point;

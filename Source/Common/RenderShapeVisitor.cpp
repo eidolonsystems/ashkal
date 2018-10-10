@@ -46,8 +46,8 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
       pos.setY(pos.y() - static_cast<int>(ellipse.get_y_radius() * y_ratio));
       auto painter = QPainter(m_widget);
       painter.drawEllipse(pos.x(), pos.y(),
-        static_cast<int>(ellipse.get_x_radius() * x_ratio * 2),
-        static_cast<int>(ellipse.get_y_radius() * y_ratio * 2));
+        static_cast<int>(2 * x_ratio * ellipse.get_x_radius()),
+        static_cast<int>(2 * y_ratio * ellipse.get_y_radius()));
      }
 
     void visit(const Line& line) override {

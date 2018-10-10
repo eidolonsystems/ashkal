@@ -29,8 +29,10 @@ class DrawManager : public QWidget {
     void mouseMoveEvent(QMouseEvent* event) override {
       if(m_is_dragging) {
         auto pos = m_camera.get_pos();
-        m_camera.set_pos({pos.x + (m_last_pos.x() - event->pos().x()),
-          pos.y + (m_last_pos.y() - event->pos().y())});
+        m_camera.set_pos({pos.x + ((m_last_pos.x() - event->pos().x()) *
+            (m_camera.get_region().get_width() / width())),
+          pos.y + ((m_last_pos.y() - event->pos().y()) *
+            (m_camera.get_region().get_height() / height()))});
         m_last_pos = event->pos();
         repaint();
       }

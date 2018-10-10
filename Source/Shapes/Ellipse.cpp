@@ -6,15 +6,15 @@ Ellipse::Ellipse()
   : Ellipse(0, 0) {}
 
 Ellipse::Ellipse(double width, double height)
-  : m_major_radius(width),
-    m_minor_radius(height) {}
+  : m_x_radius(width),
+    m_y_radius(height) {}
 
-double Ellipse::get_major_radius() const {
-  return m_major_radius;
+double Ellipse::get_x_radius() const {
+  return m_x_radius;
 }
 
-double Ellipse::get_minor_radius() const {
-  return m_minor_radius;
+double Ellipse::get_y_radius() const {
+  return m_y_radius;
 }
 
 void Ellipse::accept(ShapeVisitor& visitor) const {

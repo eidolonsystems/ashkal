@@ -8,6 +8,8 @@ namespace Ashkal {
   class Stage {
     public:
 
+      Stage() = default;
+
       //! Adds a shape at the specified Point.
       void add_shape(std::unique_ptr<Shape> shape, const Point& point);
 
@@ -17,6 +19,9 @@ namespace Ashkal {
 
     private:
       std::vector<std::pair<std::unique_ptr<Shape>, Point>> m_shapes;
+
+      Stage(const Stage&) = delete;
+      Stage& operator =(const Stage&) = delete;
   };
 
   void render(const Stage& stage, const Point& lens, const Rectangle& region,

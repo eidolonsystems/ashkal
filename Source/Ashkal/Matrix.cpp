@@ -4,56 +4,54 @@
 using namespace Ashkal;
 
 Matrix::Matrix()
-  : Matrix({0, 0, 0}, {0, 0, 0}, {0, 0, 0}) {}
+  : Matrix(std::array<std::array<double, 3>, 3>({0, 0, 0})) {}//, {0, 0, 0}, {0, 0, 0})) {}
 
-Matrix::Matrix(std::initializer_list<double> row1,
-    std::initializer_list<double> row2,
-    std::initializer_list<double> row3) {
-  std::copy(row1.begin(), row1.end(), m_data[0]);
-  std::copy(row2.begin(), row2.end(), m_data[1]);
-  std::copy(row3.begin(), row3.end(), m_data[2]);
+Matrix::Matrix(const std::array<std::array<double, 3>, 3>& values)
+  : m_data(values) {}
+
+double& Matrix::get(int row, int col) {
+  return m_data[row][col];
 }
 
-const std::array<std::array<double, 3>, 3>& Matrix::get_data() const {
-  return m_data;
+double Matrix::get(int row, int col) const {
+  return m_data[row][col];
 }
 
 Matrix Ashkal::operator +(const Matrix& a, const Matrix& b) {
-  auto& ad = a.get_data();
-  auto& bd = b.get_data();
-  return Matrix(
-    {ad[0][0] + bd[0][0], ad[0][1] + bd[0][1], ad[0][2] + bd[0][2]},
-    {ad[1][0] + bd[1][0], ad[1][1] + bd[1][1], ad[1][2] + bd[1][2]},
-    {ad[2][0] + bd[2][0], ad[2][1] + bd[2][1], ad[2][2] + bd[2][2]});
+  return Matrix(std::array<std::array<double, 3> 3>(
+    {a.get(0, 0) + b.get(0, 0), a.get(0, 1) + b.get(0,1), a.get(0, 2) +
+      b.get(0, 2)},
+    {a.get(1, 0) + b.get(1, 0), a.get(1, 1) + b.get(1, 1), a.get(1, 2) +
+      b.get(1, 2)},
+    {a.get(2, 0) + b.get(2, 0), a.get(2, 1) + b.get(2, 1), a.get(2, 2) +
+      b.get(2, 2)}));
 }
 
 Matrix Ashkal::operator -(const Matrix& a, const Matrix& b) {
-  auto& ad = a.get_data();
-  auto& bd = b.get_data();
   return Matrix(
-    {ad[0][0] - bd[0][0], ad[0][1] - bd[0][1], ad[0][2] - bd[0][2]},
-    {ad[1][0] - bd[1][0], ad[1][1] - bd[1][1], ad[1][2] - bd[1][2]},
-    {ad[2][0] - bd[2][0], ad[2][1] - bd[2][1], ad[2][2] - bd[2][2]});
+    {{a.get(0, 0) - b.get(0, 0), a.get(0, 1) - b.get(0, 1), a.get(0, 2) -
+      b.get(0, 2)},
+    {a.get(1, 0) - b.get(1, 0), a.get(1, 1) - b.get(1, 1), a.get(1, 2) -
+      b.get(1, 2)},
+    {a.get(2, 0) - b.get(2, 0), a.get(2, 1) - b.get(2, 1), a.get(2, 2) -
+    b.get(2, 2)}});
 }
 
 Matrix Ashkal::operator *(const Matrix& a, const Matrix& b) {
 
 }
 
-Matrix Ashkal::operator *(const Matrix& mat, double scalar) {
-  auto& data = mat.get_data();
+Matrix Ashkal::operator *(double scalar, const Matrix& mat) {
   return Matrix(
-    {scalar * data[0][0], scalar * data[0][1], scalar * data[0][2]},
-    {scalar * data[1][0], scalar * data[1][1], scalar * data[1][2]},
-    {scalar * data[2][0], scalar * data[2][1], scalar * data[2][2]});
+    {{scalar * mat.get(0, 0), scalar * mat.get(0, 1), scalar * mat.get(0, 2)},
+    {scalar * mat.get(1, 0), scalar * mat.get(1, 1), scalar * mat.get(1, 2)},
+    {scalar * mat.get(2, 0), scalar * mat.get(2, 1), scalar * mat.get(2, 2)}});
 }
 
 bool Ashkal::operator ==(const Matrix& a, const Matrix& b) {
-  auto& ad = a.get_data();
-  auto& bd = b.get_data();
   for(auto i = 0; i < 3; ++i) {
     for(auto j = 0; j < 3; ++j) {
-      if(ad[i][j] != bd[i][j]) {
+      if(a.get(i, j) != b.get(i, j)) {
         return false;
       }
     }
@@ -66,18 +64,17 @@ bool Ashkal::operator !=(const Matrix& a, const Matrix& b) {
 }
 
 void Ashkal::invert(Matrix& mat) {
-  auto& data = mat.get_data();
   auto determinant =
-    ((data[0][0] * data[1][1] * data[2][2]) +
-    (data[1][0] * data[2][1] * data[0][2]) +
-    (data[2][0] * data[0][1] * data[1][2])) -
-    ((data[1][0] * data[0][1] * data[2][2]) -
-    (data[0][0] * data[2][1] * data[1][2]) -
-    (data[2][0] * data[1][1] * data[0][2]));
+    ((mat.get(0, 0) * mat.get(1, 1) * mat.get(2, 2)) +
+    (mat.get(1, 0) * mat.get(2, 1) * mat.get(0, 2)) +
+    (mat.get(2, 0) * mat.get(0, 1) * mat.get(1, 2))) -
+    ((mat.get(1, 0) * mat.get(0, 1) * mat.get(2, 2)) -
+    (mat.get(0, 0) * mat.get(2, 1) * mat.get(1, 2)) -
+    (mat.get(2, 0) * mat.get(1, 1) * mat.get(0, 2)));
   if(determinant == 0) {
     throw std::domain_error("Matrix is not invertible.");
   }
-
+  auto minors = std::array<std::array<double, 3>, 3>();
 }
 
 Matrix Ashkal::invert(const Matrix& mat) {

@@ -14,15 +14,13 @@ namespace Ashkal {
 
       // Constructs a Matrix with initial values.
       /*
-        \param row1 Values for row 1 of the Matrix.
-        \param row2 Values for row 2 of the Matrix.
-        \param row3 Values for row 3 of the Matrix.
+        \param values The initial values of the matrix.
       */
-      Matrix(std::initializer_list<double> row1,
-        std::initializer_list<double> row2,
-        std::initializer_list<double> row3);
+      Matrix(const std::array<std::array<double, 3>, 3>& values);
 
-      const std::array<std::array<double, 3>, 3>& get_data() const;
+      double& get(int row, int col);
+
+      double get(int row, int col) const;
 
     private:
       std::array<std::array<double, 3>, 3> m_data;
@@ -34,7 +32,7 @@ namespace Ashkal {
 
   Matrix operator *(const Matrix& a, const Matrix& b);
 
-  Matrix operator *(const Matrix& mat, double scalar);
+  Matrix operator *(double scalar, const Matrix& mat);
 
   bool operator ==(const Matrix& a, const Matrix& b);
 

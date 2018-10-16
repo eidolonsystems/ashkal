@@ -78,35 +78,35 @@ bool Ashkal::operator !=(const Matrix& a, const Matrix& b) {
 
 void Ashkal::invert(Matrix& mat) {
   auto determinant =
-    ((mat.get(0, 0) * mat.get(1, 1) * mat.get(2, 2)) +
-    (mat.get(1, 0) * mat.get(2, 1) * mat.get(0, 2)) +
-    (mat.get(2, 0) * mat.get(0, 1) * mat.get(1, 2))) -
-    ((mat.get(1, 0) * mat.get(0, 1) * mat.get(2, 2)) -
-    (mat.get(0, 0) * mat.get(2, 1) * mat.get(1, 2)) -
-    (mat.get(2, 0) * mat.get(1, 1) * mat.get(0, 2)));
+    (mat.get(0, 0) *
+      (mat.get(1, 1) * mat.get(2, 2) - mat.get(2, 1) * mat.get(1, 2))) -
+    (mat.get(1, 0) *
+      (mat.get(0, 1) * mat.get(2, 2) - mat.get(2, 1) * mat.get(0, 2))) +
+    (mat.get(2, 0) *
+      (mat.get(0, 1) * mat.get(1, 2) - mat.get(1, 1) * mat.get(0, 2)));
   if(determinant == 0) {
     throw std::domain_error("Matrix is not invertible.");
   }
   auto minors = Matrix();
   minors.get(0, 0) = -1 * ((mat.get(1, 1) * mat.get(2, 2)) -
     (mat.get(2, 1) * mat.get(1, 2)));
-  minors.get(1, 0) = -1 *((mat.get(0, 1) * mat.get(2, 2)) -
+  minors.get(0, 1) = -1 *((mat.get(0, 1) * mat.get(2, 2)) -
     (mat.get(0, 2) * mat.get(2, 1)));
-  minors.get(2, 0) = -1 * ((mat.get(0, 1) * mat.get(1, 1)) -
+  minors.get(0, 2) = -1 * ((mat.get(0, 1) * mat.get(1, 1)) -
     (mat.get(0, 2) * mat.get(1, 2)));
-  minors.get(0, 1) = -1 * ((mat.get(1, 0) * mat.get(2, 2)) -
+  minors.get(1, 0) = -1 * ((mat.get(1, 0) * mat.get(2, 2)) -
     (mat.get(2, 0) * mat.get(1, 2)));
   minors.get(1, 1) = -1 * ((mat.get(0, 0) * mat.get(2, 2)) -
     (mat.get(0, 2) * mat.get(2, 2)));
-  minors.get(2, 1) = -1 * ((mat.get(0, 0) * mat.get(1, 2)) -
+  minors.get(1, 2) = -1 * ((mat.get(0, 0) * mat.get(1, 2)) -
     (mat.get(1, 0) * mat.get(0, 2)));
-  minors.get(0, 2) = -1 * ((mat.get(1, 0) * mat.get(2, 1)) -
+  minors.get(2, 0) = -1 * ((mat.get(1, 0) * mat.get(2, 1)) -
     (mat.get(1, 1) * mat.get(2, 0)));
-  minors.get(1, 2) = -1 * ((mat.get(0, 0) * mat.get(2, 1)) -
+  minors.get(2, 1) = -1 * ((mat.get(0, 0) * mat.get(2, 1)) -
     (mat.get(2, 0) * mat.get(0, 1)));
   minors.get(2, 2) = -1 * ((mat.get(0, 0) * mat.get(1, 1)) -
     (mat.get(1, 0) * mat.get(0, 1)));
-  mat = determinant * minors;
+  mat = (1 / determinant) * minors;
 }
 
 Matrix Ashkal::invert(const Matrix& mat) {

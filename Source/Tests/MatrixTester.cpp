@@ -62,18 +62,24 @@ TEST_CASE("Testing multiplication of Matrix and scalar", "[operator*]") {
 }
 
 TEST_CASE("Testing inverting of matrices", "[invert]") {
-  //auto mat = Matrix(
-  //  {-1, -2, 2},
-  //  {2, 1, 1},
-  //  {3, 4, 5});
-  auto mat = Matrix(
+  auto mat1 = Matrix(
+    {-1, -2, 2},
+    {2, 1, 1},
+    {3, 4, 5});
+  auto result1 = Matrix(
+    {1/23.0, 18/23.0, -4/23.0},
+    {-7/23.0, -11/23.0, 5/23.0},
+    {5/23.0, -2/23.0, 3/23.0});
+  invert(mat1);
+  REQUIRE(mat1 == result1);
+  auto mat2 = Matrix(
     {10, 17, 12},
     {5, 10, 9},
     {21, 15, 13});
-  auto result = Matrix(
+  auto result2 = Matrix(
     {-5/438.0, -41/438.0, 33/483.0},
     {124/438.0, -122/438.0, -30/438.0},
     {-135/438.0, 207/438.0, 15/438.0});
-  invert(mat);
-  REQUIRE(mat == result);
+  invert(mat2);
+  REQUIRE(mat2 == result2);
 }

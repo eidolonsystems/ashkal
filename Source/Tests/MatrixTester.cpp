@@ -60,3 +60,16 @@ TEST_CASE("Testing multiplication of Matrix and scalar", "[operator*]") {
     {14, 16, 18});
   REQUIRE(scalar * mat == result);
 }
+
+TEST_CASE("Testing inverting of matrices", "[invert]") {
+  auto mat = Matrix(
+    {-1, -2, 2},
+    {2, 1, 1},
+    {3, 4, 5});
+  auto result = Matrix(
+    {1/23.0, 18/23.0, -4/23.0},
+    {-7/23.0, -11/23.0, 5/23.0},
+    {5/23.0, -2/23.0, 3/23.0});
+  invert(mat);
+  REQUIRE(mat == result);
+}

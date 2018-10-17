@@ -11,15 +11,15 @@ Matrix::Matrix(std::initializer_list<double> row1,
   if(row1.size() != 3) {
     throw std::out_of_range("row1 size does not equal 3.");
   }
-  std::copy(row1.begin(), row1.end(), m_data[0]);
   if(row2.size() != 3) {
     throw std::out_of_range("row2 size does not equal 3");
   }
-  std::copy(row2.begin(), row2.end(), m_data[1]);
   if(row3.size() != 3) {
     throw std::out_of_range("row3 size does not equal 3.");
   }
-  std::copy(row3.begin(), row3.end(), m_data[2]);
+  std::copy(row1.begin(), row1.end(), m_data[0].begin());
+  std::copy(row2.begin(), row2.end(), m_data[1].begin());
+  std::copy(row3.begin(), row3.end(), m_data[2].begin());
 }
 
 double& Matrix::get(int row, int col) {
@@ -31,52 +31,39 @@ double Matrix::get(int row, int col) const {
 }
 
 Matrix Ashkal::operator +(const Matrix& a, const Matrix& b) {
-  return Matrix(
-    {a.get(0, 0) + b.get(0, 0), a.get(0, 1) + b.get(0,1), a.get(0, 2) +
-      b.get(0, 2)},
-    {a.get(1, 0) + b.get(1, 0), a.get(1, 1) + b.get(1, 1), a.get(1, 2) +
-      b.get(1, 2)},
-    {a.get(2, 0) + b.get(2, 0), a.get(2, 1) + b.get(2, 1), a.get(2, 2) +
-      b.get(2, 2)});
+  auto mat = Matrix();
+  for(auto i = 0; i < 3; ++i) {
+    for(auto j = 0; j < 3; ++j) {
+      mat.get(i, j) = a.get(i, j) + b.get(i, j);
+    }
+  }
+  return mat;
 }
 
 Matrix Ashkal::operator -(const Matrix& a, const Matrix& b) {
-  return Matrix(
-    {a.get(0, 0) - b.get(0, 0), a.get(0, 1) - b.get(0, 1), a.get(0, 2) -
-      b.get(0, 2)},
-    {a.get(1, 0) - b.get(1, 0), a.get(1, 1) - b.get(1, 1), a.get(1, 2) -
-      b.get(1, 2)},
-    {a.get(2, 0) - b.get(2, 0), a.get(2, 1) - b.get(2, 1), a.get(2, 2) -
-    b.get(2, 2)});
+  return a + (-1 * b);
 }
 
 Matrix Ashkal::operator *(const Matrix& a, const Matrix& b) {
-  return Matrix(
-    {(a.get(0, 0) * b.get(0, 0)) + (a.get(0, 1) * b.get(1, 0)) +
-      (a.get(0, 2) * b.get(2, 0)),
-    (a.get(0, 0) * b.get(0, 1)) + (a.get(0, 1) * b.get(1, 1)) +
-      (a.get(0, 2) * b.get(2, 1)),
-    (a.get(0, 0) * b.get(0, 2)) + (a.get(0, 1) * b.get(1, 2)) +
-      (a.get(0, 2) * b.get(2, 2))},
-    {(a.get(1, 0) * b.get(0, 0)) + (a.get(1, 1) * b.get(1, 0)) +
-      (a.get(1, 2) * b.get(2, 0)),
-    (a.get(1, 0) * b.get(0, 1)) + (a.get(1, 1) * b.get(1, 1)) +
-      (a.get(1, 2) * b.get(2, 1)),
-    (a.get(1, 0) * b.get(0, 2)) + (a.get(1, 1) * b.get(1, 2)) +
-      (a.get(1, 2) * b.get(2, 2))},
-    {(a.get(2, 0) * b.get(0, 0)) + (a.get(2, 1) * b.get(1, 0)) +
-      (a.get(2, 2) * b.get(2, 0)),
-    (a.get(2, 0) * b.get(0, 1)) + (a.get(2, 1) * b.get(1, 1)) +
-      (a.get(2, 2) * b.get(2, 1)),
-    (a.get(2, 0) * b.get(0, 2)) + (a.get(2, 1) * b.get(1, 2)) +
-      (a.get(2, 2) * b.get(2, 2))});
+  auto mat = Matrix();
+  for(auto i = 0; i < 3; ++i) {
+    for(auto j = 0; j < 3; ++j) {
+      mat.get(i, j) = (a.get(i, 0) * b.get(0, j)) +
+        (a.get(i, 1) * b.get(1, j)) + (a.get(i, 2) * b.get(2, j));
+    }
+  }
+  return mat;
 }
 
 Matrix Ashkal::operator *(double scalar, const Matrix& mat) {
-  return Matrix(
-    {scalar * mat.get(0, 0), scalar * mat.get(0, 1), scalar * mat.get(0, 2)},
-    {scalar * mat.get(1, 0), scalar * mat.get(1, 1), scalar * mat.get(1, 2)},
-    {scalar * mat.get(2, 0), scalar * mat.get(2, 1), scalar * mat.get(2, 2)});
+  auto result = Matrix();
+  for(auto i = 0; i < 3; ++i) {
+    for(auto j = 0; j < 3; ++j) {
+      auto m = mat.get(i, j);
+      result.get(i, j) = scalar * m;
+    }
+  }
+  return result;
 }
 
 bool Ashkal::operator ==(const Matrix& a, const Matrix& b) {
@@ -106,24 +93,24 @@ void Ashkal::invert(Matrix& mat) {
     throw std::domain_error("Matrix is not invertible.");
   }
   auto minors = Matrix();
-  minors.get(0, 0) = 1 * ((mat.get(1, 1) * mat.get(2, 2)) -
-    (mat.get(2, 1) * mat.get(1, 2)));
+  minors.get(0, 0) = (mat.get(1, 1) * mat.get(2, 2)) -
+    (mat.get(2, 1) * mat.get(1, 2));
   minors.get(0, 1) = -1 * ((mat.get(0, 1) * mat.get(2, 2)) -
     (mat.get(2, 1) * mat.get(0, 2)));
-  minors.get(0, 2) = 1 * ((mat.get(0, 1) * mat.get(1, 2)) -
-    (mat.get(1, 1) * mat.get(0, 2)));
+  minors.get(0, 2) = (mat.get(0, 1) * mat.get(1, 2)) -
+    (mat.get(1, 1) * mat.get(0, 2));
   minors.get(1, 0) = -1 * ((mat.get(1, 0) * mat.get(2, 2)) -
     (mat.get(2, 0) * mat.get(1, 2)));
-  minors.get(1, 1) = 1 * ((mat.get(0, 0) * mat.get(2, 2)) -
-    (mat.get(2, 0) * mat.get(0, 2)));
+  minors.get(1, 1) = (mat.get(0, 0) * mat.get(2, 2)) -
+    (mat.get(2, 0) * mat.get(0, 2));
   minors.get(1, 2) = -1 * ((mat.get(0, 0) * mat.get(1, 2)) -
     (mat.get(1, 0) * mat.get(0, 2)));
-  minors.get(2, 0) = 1 * ((mat.get(1, 0) * mat.get(2, 1)) -
-    (mat.get(2, 0) * mat.get(1, 1)));
+  minors.get(2, 0) = (mat.get(1, 0) * mat.get(2, 1)) -
+    (mat.get(2, 0) * mat.get(1, 1));
   minors.get(2, 1) = -1 * ((mat.get(0, 0) * mat.get(2, 1)) -
     (mat.get(2, 0) * mat.get(0, 1)));
-  minors.get(2, 2) = 1 * ((mat.get(0, 0) * mat.get(1, 1)) -
-    (mat.get(1, 0) * mat.get(0, 1)));
+  minors.get(2, 2) = (mat.get(0, 0) * mat.get(1, 1)) -
+    (mat.get(1, 0) * mat.get(0, 1));
   mat = (1 / determinant) * minors;
 }
 

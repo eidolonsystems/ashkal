@@ -22,12 +22,22 @@ namespace Ashkal {
         std::initializer_list<double> row2,
         std::initializer_list<double> row3);
 
+      // Returns the value at (row, col)
+      /*
+        \param row The row to get the value at.
+        \param col The column to get the value at.
+      */
       double& get(int row, int col);
 
+      // Returns the value at (row, col)
+      /*
+        \param row The row to get the value at.
+        \param col The column to get the value at.
+      */
       double get(int row, int col) const;
 
     private:
-      double m_data[3][3];
+      std::array<std::array<double, 3>, 3> m_data;
   };
 
   Matrix operator +(const Matrix& a, const Matrix& b);

@@ -72,6 +72,7 @@ TEST_CASE("Testing multiplication of two matrices", "[operator*]") {
     {30, 36, 42},
     {66, 81, 96},
     {102, 126, 150});
+  auto a = mat1 * mat2;
   REQUIRE(mat1 * mat2 == result);
 }
 
@@ -98,6 +99,11 @@ TEST_CASE("Testing equality of matrices", "[operator==]") {
     {4, 5, 6},
     {7, 8, 9});
   REQUIRE(mat1 == mat2);
+  auto mat3 = Matrix(
+    {1, 2, 3},
+    {44, 5, 6},
+    {7, 8, 9});
+  REQUIRE(!(mat1 == mat3));
 }
 
 TEST_CASE("Testing inverting of matrices", "[invert]") {

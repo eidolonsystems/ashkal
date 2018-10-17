@@ -88,6 +88,18 @@ TEST_CASE("Testing multiplication of Matrix and scalar", "[operator*]") {
   REQUIRE(scalar * mat == result);
 }
 
+TEST_CASE("Testing equality of matrices", "[operator==]") {
+  auto mat1 = Matrix(
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9});
+  auto mat2 = Matrix(
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9});
+  REQUIRE(mat1 == mat2);
+}
+
 TEST_CASE("Testing inverting of matrices", "[invert]") {
   auto mat1 = Matrix(
     {-1, -2, 2},

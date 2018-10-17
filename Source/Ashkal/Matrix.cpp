@@ -59,8 +59,7 @@ Matrix Ashkal::operator *(double scalar, const Matrix& mat) {
   auto result = Matrix();
   for(auto i = 0; i < 3; ++i) {
     for(auto j = 0; j < 3; ++j) {
-      auto m = mat.get(i, j);
-      result.get(i, j) = scalar * m;
+      result.get(i, j) = scalar * mat.get(i, j);
     }
   }
   return result;

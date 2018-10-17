@@ -72,7 +72,6 @@ TEST_CASE("Testing multiplication of two matrices", "[operator*]") {
     {30, 36, 42},
     {66, 81, 96},
     {102, 126, 150});
-  auto a = mat1 * mat2;
   REQUIRE(mat1 * mat2 == result);
 }
 

@@ -59,6 +59,22 @@ TEST_CASE("Testing subtraction of Matrices", "[operator-]") {
   REQUIRE(mat3 - mat4 == result2);
 }
 
+TEST_CASE("Testing multiplication of two matrices", "[operator*]") {
+  auto mat1 = Matrix(
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9});
+  auto mat2 = Matrix(
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9});
+  auto result = Matrix(
+    {30, 36, 42},
+    {66, 81, 96},
+    {102, 126, 150});
+  REQUIRE(mat1 * mat2 == result);
+}
+
 TEST_CASE("Testing multiplication of Matrix and scalar", "[operator*]") {
   auto scalar = 2;
   auto mat = Matrix(

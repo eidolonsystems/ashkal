@@ -51,7 +51,25 @@ Matrix Ashkal::operator -(const Matrix& a, const Matrix& b) {
 }
 
 Matrix Ashkal::operator *(const Matrix& a, const Matrix& b) {
-  return Matrix();
+  return Matrix(
+    {(a.get(0, 0) * b.get(0, 0)) + (a.get(0, 1) * b.get(1, 0)) +
+      (a.get(0, 2) * b.get(2, 0)),
+    (a.get(0, 0) * b.get(0, 1)) + (a.get(0, 1) * b.get(1, 1)) +
+      (a.get(0, 2) * b.get(2, 1)),
+    (a.get(0, 0) * b.get(0, 2)) + (a.get(0, 1) * b.get(1, 2)) +
+      (a.get(0, 2) * b.get(2, 2))},
+    {(a.get(1, 0) * b.get(0, 0)) + (a.get(1, 1) * b.get(1, 0)) +
+      (a.get(1, 2) * b.get(2, 0)),
+    (a.get(1, 0) * b.get(0, 1)) + (a.get(1, 1) * b.get(1, 1)) +
+      (a.get(1, 2) * b.get(2, 1)),
+    (a.get(1, 0) * b.get(0, 2)) + (a.get(1, 1) * b.get(1, 2)) +
+      (a.get(1, 2) * b.get(2, 2))},
+    {(a.get(2, 0) * b.get(0, 0)) + (a.get(2, 1) * b.get(1, 0)) +
+      (a.get(2, 2) * b.get(2, 0)),
+    (a.get(2, 0) * b.get(0, 1)) + (a.get(2, 1) * b.get(1, 1)) +
+      (a.get(2, 2) * b.get(2, 1)),
+    (a.get(2, 0) * b.get(0, 2)) + (a.get(2, 1) * b.get(1, 2)) +
+      (a.get(2, 2) * b.get(2, 2))});
 }
 
 Matrix Ashkal::operator *(double scalar, const Matrix& mat) {

@@ -3,6 +3,17 @@
 
 using namespace Ashkal;
 
+bool equals(const Matrix& a, const Matrix& b) {
+  for(auto i = 0; i < 3; ++i) {
+    for(auto j = 0; j < 3; ++j) {
+      if(std::abs(a.get(i, j) - b.get(i, j)) > std::pow(10, -10)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 TEST_CASE("Testing addition of Matrices", "[operator+]") {
   auto mat1 = Matrix(
     {1, 2, 3},
@@ -71,15 +82,15 @@ TEST_CASE("Testing inverting of matrices", "[invert]") {
     {-7/23.0, -11/23.0, 5/23.0},
     {5/23.0, -2/23.0, 3/23.0});
   invert(mat1);
-  REQUIRE(mat1 == result1);
+  REQUIRE(equals(mat1, result1));
   auto mat2 = Matrix(
     {10, 17, 12},
     {5, 10, 9},
     {21, 15, 13});
   auto result2 = Matrix(
-    {-5/438.0, -41/438.0, 33/483.0},
+    {-5/438.0, -41/438.0, 33/438.0},
     {124/438.0, -122/438.0, -30/438.0},
     {-135/438.0, 207/438.0, 15/438.0});
   invert(mat2);
-  REQUIRE(mat2 == result2);
+  REQUIRE(equals(mat2, result2));
 }

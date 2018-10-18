@@ -9,6 +9,8 @@ namespace Ashkal {
   class Shape {
     public:
 
+      // Constructs a Shape with an identity matrix as the default
+      // transformation.
       Shape();
 
       virtual ~Shape() = default;

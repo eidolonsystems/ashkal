@@ -3,10 +3,10 @@
 using namespace Ashkal;
 
 Shape::Shape()
-    : m_transformation({1, 0, 0}, {0, 1, 0}, {0, 0, 1}) {}
+    : m_transformation(Matrix::get_identity()) {}
 
 void Shape::transform(const Matrix& m) {
-  m_transformation = m_transformation * m;
+  m_transformation = m * m_transformation;
 }
 
 const Matrix& Shape::get_transformation() const {

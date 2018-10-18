@@ -17,7 +17,7 @@ namespace Ashkal {
 
       void transform(const Matrix& m);
 
-      const Matrix& get_transformation() const;
+      const Matrix& getTransformation() const;
 
     protected:
       Matrix m_transformation;

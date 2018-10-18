@@ -9,6 +9,9 @@ namespace Ashkal {
   class Matrix {
     public:
 
+      // Returns the identity matrix.
+      static const Matrix& get_identity();
+
       // Constructs a zero matrix.
       Matrix();
 

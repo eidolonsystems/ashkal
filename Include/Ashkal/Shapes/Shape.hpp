@@ -1,17 +1,13 @@
 #ifndef ASHKAL_SHAPE_HPP
 #define ASHKAL_SHAPE_HPP
-#include "Ashkal/Ashkal/ShapeVisitor.hpp"
 #include "Ashkal/Ashkal/Matrix.hpp"
+#include "Ashkal/Ashkal/ShapeVisitor.hpp"
 
 namespace Ashkal {
 
   //! Represents an abstract shape.
   class Shape {
     public:
-
-      // Constructs a Shape with an identity matrix as the default
-      // transformation.
-      Shape();
 
       virtual ~Shape() = default;
 
@@ -24,6 +20,9 @@ namespace Ashkal {
       const Matrix& getTransformation() const;
 
     protected:
+      Shape();
+
+    private:
       Matrix m_transformation;
   };
 }

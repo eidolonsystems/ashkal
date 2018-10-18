@@ -9,6 +9,6 @@ void Shape::transform(const Matrix& m) {
   m_transformation = m * m_transformation;
 }
 
-const Matrix& Shape::get_transformation() const {
+const Matrix& Shape::getTransformation() const {
   return m_transformation;
 }

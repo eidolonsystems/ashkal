@@ -20,6 +20,8 @@ namespace Ashkal {
       const Matrix& getTransformation() const;
 
     protected:
+      // Constructs a Shape with an identity matrix as the default
+      // transformation.
       Shape();
 
     private:

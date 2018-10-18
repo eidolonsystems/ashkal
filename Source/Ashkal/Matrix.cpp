@@ -3,6 +3,11 @@
 
 using namespace Ashkal;
 
+const Matrix& Matrix::get_identity() {
+  static auto i = Matrix({1, 0, 0}, {0, 1, 0}, {0, 0, 1});
+  return i;
+}
+
 Matrix::Matrix()
   : Matrix({0, 0, 0}, {0, 0, 0}, {0, 0, 0}) {}
 

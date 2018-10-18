@@ -15,8 +15,10 @@ namespace Ashkal {
 
       virtual void accept(ShapeVisitor& visitor) const = 0;
 
+      // Applies a transformation to this Shape.
       void transform(const Matrix& m);
 
+      // Returns the transformation applied to this Shape.
       const Matrix& getTransformation() const;
 
     protected:

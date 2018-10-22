@@ -43,6 +43,32 @@ namespace Ashkal {
       std::array<std::array<double, 3>, 3> m_data;
   };
 
+  //! Returns a rotated identity Matrix.
+  /*
+    \param r The amount to rotate, in radians.
+  */
+  Matrix rotate(double r);
+
+  //! Returns a scaled identity Matrix.
+  /*
+    \param s The amount to scale, both x and y.
+  */
+  Matrix scale(double s);
+
+  //! Returns a scaled identity Matrix.
+  /*
+    \param x The amount to scale the width.
+    \param y The amount to scale the height.
+  */
+  Matrix scale(double x, double y);
+
+  //! Returns a translated identity Matrix.
+  /*
+    \param x The amount to move the x axis.
+    \param y The amount to move the y axis.
+  */
+  Matrix translate(double x, double y);
+
   Matrix operator +(const Matrix& a, const Matrix& b);
 
   Matrix operator -(const Matrix& a, const Matrix& b);

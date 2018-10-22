@@ -1,6 +1,7 @@
 find_package(Qt5Widgets REQUIRED)
+file(GLOB header_files ../../Include/Tests/*.hpp)
 file(GLOB source_files ../../Source/Tests/*.cpp)
-add_executable(ashkal_tester ${source_files})
+add_executable(ashkal_tester ${header_files} ${source_files})
 if(UNIX)
   target_link_libraries(ashkal_tester
     debug ${QT_GIF_LIBRARY_DEBUG_PATH}

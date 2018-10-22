@@ -90,7 +90,7 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
 
 void Ashkal::render(const Stage& stage, const Camera& camera,
     QWidget* widget) {
-  for(auto& [shape, pos] : stage.get_shapes()) {
+  for(auto& [shape, pos] : stage.getShapes()) {
     renderShape(*shape, pos, camera, widget);
   }
 }

@@ -1,7 +1,7 @@
 #include "Ashkal/Ashkal/IntersectShapeVisitor.hpp"
-#include "Ashkal/Shapes/Ellipse.hpp"
+#include "Ashkal/Shapes/Circle.hpp"
 #include "Ashkal/Shapes/Line.hpp"
-#include "Ashkal/Shapes/Rectangle.hpp"
+#include "Ashkal/Shapes/Square.hpp"
 #include "Ashkal/Shapes/Triangle.hpp"
 
 using namespace Ashkal;
@@ -32,7 +32,7 @@ namespace {
   }
 
   std::array<std::pair<Line, Point>, 4> get_lines_from_rect(
-      const Rectangle& rect, const Point& pos) {
+      const Square& rect, const Point& pos) {
     auto lines = std::array<std::pair<Line, Point>, 4>();
     lines[0] = std::pair(Line({rect.get_width(), 0}), pos);
     lines[1] = std::pair(Line({0, -rect.get_height()}),
@@ -44,7 +44,7 @@ namespace {
   }
 
   bool ellipse_intersects(const Line& line, const Point& line_pos,
-      const Ellipse& ellipse, const Point& ellipse_pos) {
+      const Circle& ellipse, const Point& ellipse_pos) {
     auto major = ellipse.get_x_radius();
     auto minor = ellipse.get_y_radius();
     auto d1 = std::pow(major, 2);
@@ -80,17 +80,17 @@ namespace {
     return point.y - (point.x * slope);
   }
 
-  bool rect_contains_x(const Rectangle& rect, const Point& rect_pos,
+  bool rect_contains_x(const Square& rect, const Point& rect_pos,
       double x) {
     return x >= rect_pos.x && x <= rect_pos.x + rect.get_width();
   }
 
-  bool rect_contains_y(const Rectangle& rect, const Point& rect_pos,
+  bool rect_contains_y(const Square& rect, const Point& rect_pos,
       double y) {
     return y >= rect_pos.y - rect.get_height() && y <= rect_pos.y;
   }
 
-  bool rect_contains(const Rectangle& rect, const Point& rect_pos,
+  bool rect_contains(const Square& rect, const Point& rect_pos,
       const Point& point) {
     return rect_contains_x(rect, rect_pos, point.x) &&
       rect_contains_y(rect, rect_pos, point.y);
@@ -98,7 +98,7 @@ namespace {
 
   bool line_intersects(const Line& line1, const Point& line1_pos,
       const Line& line2, const Point& line2_pos,
-      const Rectangle& rect, const Point& ref_pos) {
+      const Square& rect, const Point& ref_pos) {
     if(line1.get_point().x == 0 && line2.get_point().x == 0) {
       if(line1_pos.x == line2_pos.x) {
         return true;
@@ -128,10 +128,10 @@ namespace {
   }
 }
 
-bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
+bool Ashkal::intersects(const Square& a, const Point& p1, const Shape& b,
     const Point& p2) {
   struct Visitor final : ShapeVisitor {
-    bool operator ()(const Rectangle& a, const Point& p1, const Shape& b,
+    bool operator ()(const Square& a, const Point& p1, const Shape& b,
         const Point& p2) {
       m_intersects = false;
       m_rect = a;
@@ -141,7 +141,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       return m_intersects;
     }
 
-    void visit(const Ellipse& ellipse) override {
+    void visit(const Circle& ellipse) override {
       for(auto& line : get_lines_from_rect(m_rect, m_rect_pos)) {
         if(ellipse_intersects(line.first, line.second, ellipse, m_shape_pos)) {
           m_intersects = true;
@@ -191,7 +191,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
       }
     }
 
-    void visit(const Rectangle& rect) override {
+    void visit(const Square& rect) override {
       auto m_rect_right = m_rect_pos.x + m_rect.get_width();
       auto m_rect_bottom = m_rect_pos.y - m_rect.get_height();
       auto shape_right = m_shape_pos.x + rect.get_width();
@@ -237,7 +237,7 @@ bool Ashkal::intersects(const Rectangle& a, const Point& p1, const Shape& b,
     }
 
     bool m_intersects;
-    Rectangle m_rect;
+    Square m_rect;
     Point m_rect_pos;
     Point m_shape_pos;
   };

@@ -37,7 +37,7 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
       shape.accept(*this);
     }
 
-    void visit(const Ellipse& ellipse) override {
+    void visit(const Circle& ellipse) override {
       auto pos = translateStageToView(m_point, m_camera, m_widget->width(),
         m_widget->height());
       auto x_ratio = m_widget->width() / m_camera.get_region().get_width();
@@ -59,7 +59,7 @@ void Ashkal::renderShape(const Shape& shape, const Point& point,
       painter.drawLine(pos, point);
     }
 
-    void visit(const Rectangle& rect) override {
+    void visit(const Square& rect) override {
       auto top_left = translateStageToView(m_point, m_camera,
         m_widget->width(), m_widget->height());
       auto bottom_right = translateStageToView(

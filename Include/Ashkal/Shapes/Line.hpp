@@ -12,6 +12,11 @@ namespace Ashkal {
       void accept(ShapeVisitor& visitor) const override;
   };
 
+  //! Creates a line with specified points.
+  /*
+    \param p1 The first point of the line.
+    \param p2 The second point of the line.
+  */
   Line make_line(const Point& p1, const Point& p2);
 }
 

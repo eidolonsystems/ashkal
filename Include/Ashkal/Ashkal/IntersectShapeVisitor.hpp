@@ -12,7 +12,7 @@ namespace Ashkal {
     \param b The Shape to check for intersection with the Rectangle.
     \param p2 The position of the Shape.
   */
-  bool intersects(const Rectangle& a, const Point& p1, const Shape& b,
+  bool intersects(const Square& a, const Point& p1, const Shape& b,
     const Point& p2);
 }
 

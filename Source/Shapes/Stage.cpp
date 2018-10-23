@@ -8,7 +8,7 @@ void Stage::add_shape(unique_ptr<Shape> shape, const Point& point) {
   m_shapes.push_back(pair(std::move(shape), point));
 }
 
-const vector<pair<unique_ptr<Shape>, Point>>& Stage::get_shapes() const {
+const vector<pair<unique_ptr<Shape>, Point>>& Stage::getShapes() const {
   return m_shapes;
 }
 

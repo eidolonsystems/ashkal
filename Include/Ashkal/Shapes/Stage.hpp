@@ -15,7 +15,7 @@ namespace Ashkal {
 
       //! Returns the vector of shapes and their positions.
       const std::vector<std::pair<std::unique_ptr<Shape>, Point>>&
-        get_shapes() const;
+        getShapes() const;
 
     private:
       std::vector<std::pair<std::unique_ptr<Shape>, Point>> m_shapes;

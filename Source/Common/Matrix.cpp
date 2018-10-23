@@ -35,6 +35,34 @@ double Matrix::get(int row, int col) const {
   return m_data[row][col];
 }
 
+Matrix Ashkal::rotate(double r) {
+  if(r == 0) {
+    return Matrix::get_identity();
+  }
+  return Matrix(
+    {std::cos(r), std::sin(r), 0},
+    {-std::sin(r), std::cos(r), 0},
+    {0, 0, 1});
+}
+
+Matrix Ashkal::scale(double s) {
+  return scale(s, s);
+}
+
+Matrix Ashkal::scale(double x, double y) {
+  return Matrix(
+    {x, 0, 0},
+    {0, y, 0},
+    {0, 0, 1});
+}
+
+Matrix Ashkal::translate(double x, double y) {
+  return Matrix(
+    {1, 0, x},
+    {0, 1, y},
+    {0, 0, 1});
+}
+
 Matrix Ashkal::operator +(const Matrix& a, const Matrix& b) {
   auto mat = Matrix();
   for(auto i = 0; i < 3; ++i) {

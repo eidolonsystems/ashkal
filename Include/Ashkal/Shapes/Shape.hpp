@@ -17,7 +17,7 @@ namespace Ashkal {
       void transform(const Matrix& m);
 
       // Returns the transformation applied to this Shape.
-      const Matrix& getTransformation() const;
+      const Matrix& get_transformation() const;
 
     protected:
       // Constructs a Shape with an identity matrix as the default

@@ -11,7 +11,7 @@ namespace Ashkal {
       Stage() = default;
 
       //! Adds a shape at the specified Point.
-      void addShape(std::unique_ptr<Shape> shape, const Point& point);
+      void add_shape(std::unique_ptr<Shape> shape, const Point& point);
 
       //! Returns the vector of shapes and their positions.
       const std::vector<std::pair<std::unique_ptr<Shape>, Point>>&

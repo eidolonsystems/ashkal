@@ -4,7 +4,7 @@
 using namespace std;
 using namespace Ashkal;
 
-void Stage::addShape(unique_ptr<Shape> shape, const Point& point) {
+void Stage::add_shape(unique_ptr<Shape> shape, const Point& point) {
   m_shapes.push_back(pair(std::move(shape), point));
 }
 

@@ -5,28 +5,14 @@
 
 namespace Ashkal {
 
-  //! Represents a Line on a 2D plane.
+  //! Represents a line.
   class Line : public Shape {
     public:
 
-      //! Constructs a Line with the start and end points at the origin.
-      Line();
-
-      //! Constructs a Line with two points, one at the origin and another
-      //! at an arbitrary point.
-      /*
-        \param point The point that determines the length and angle of the Line
-                     relative to the origin.
-      */
-      Line(const Point& point);
-
-      Point get_point() const;
-
       void accept(ShapeVisitor& visitor) const override;
-
-    private:
-      Point m_point;
   };
+
+  Line make_line(const Point& p1, const Point& p2);
 }
 
 #endif

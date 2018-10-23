@@ -13,6 +13,6 @@ const vector<pair<unique_ptr<Shape>, Point>>& Stage::getShapes() const {
 }
 
 void Ashkal::render(const Stage& stage, const Point& lens,
-    const Rectangle& region, QWidget* widget) {
+    const Square& region, QWidget* widget) {
   
 }

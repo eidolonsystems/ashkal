@@ -46,10 +46,7 @@ Matrix Ashkal::rotate(double r) {
 }
 
 Matrix Ashkal::scale(double s) {
-  return Matrix(
-    {s, 0, 0},
-    {0, s, 0},
-    {0, 0, 1});
+  return scale(s, s);
 }
 
 Matrix Ashkal::scale(double x, double y) {

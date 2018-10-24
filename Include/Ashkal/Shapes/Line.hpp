@@ -5,7 +5,7 @@
 
 namespace Ashkal {
 
-  //! Represents a line.
+  //! Represents a line with enpoints at (-0.5, -0.5) and (0.5, 0.5).
   class Line : public Shape {
     public:
 

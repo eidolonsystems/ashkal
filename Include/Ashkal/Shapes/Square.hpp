@@ -1,10 +1,10 @@
 #ifndef ASHKAL_SQUARE_HPP
-#define ASHKAL_RECTANGLE_HPP
+#define ASHKAL_SQUARE_HPP
 #include "Ashkal/Shapes/Shape.hpp"
 
 namespace Ashkal {
 
-  //! Represents a Square.
+  //! Represents a unit square centered at the origin.
   class Square : public Shape {
     public:
 

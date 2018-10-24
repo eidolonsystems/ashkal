@@ -4,7 +4,7 @@
 
 namespace Ashkal {
 
-  //! Represents a Circle.
+  //! Represents a unit circle centered at the origin.
   class Circle : public Shape {
     public:
 

@@ -1,5 +1,5 @@
-#ifndef ASHKAL_ELLIPSE_HPP
-#define ASHKAL_ELLIPSE_HPP
+#ifndef ASHKAL_CIRCLE_HPP
+#define ASHKAL_CIRCLE_HPP
 #include "Ashkal/Shapes/Shape.hpp"
 
 namespace Ashkal {

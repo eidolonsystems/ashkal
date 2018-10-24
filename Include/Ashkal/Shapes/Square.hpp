@@ -1,4 +1,4 @@
-#ifndef ASHKAL_RECTANGLE_HPP
+#ifndef ASHKAL_SQUARE_HPP
 #define ASHKAL_RECTANGLE_HPP
 #include "Ashkal/Shapes/Shape.hpp"
 

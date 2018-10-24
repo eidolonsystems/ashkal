@@ -3,7 +3,7 @@
 using namespace Ashkal;
 
 Camera::Camera()
-  : Camera(Matrix::get_identity()) {}
+    : Camera(Matrix::get_identity()) {}
 
 Camera::Camera(const Matrix& transform)
     : m_transformation(transform) {}

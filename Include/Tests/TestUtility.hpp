@@ -4,7 +4,7 @@
 
 namespace Ashkal {
 
-  bool equals(const Matrix& a, const Matrix& b);
+  bool equals(const Matrix& a, const Matrix& b, int sig_figures = 15);
 }
 
 #endif

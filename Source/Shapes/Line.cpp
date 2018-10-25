@@ -12,6 +12,6 @@ Line Ashkal::make_line(const Point& p1, const Point& p2) {
     std::pow(std::abs(p1.y - p2.y), 2));
   auto slope = (p1.y - p2.y) / (p1.x - p2.x);
   auto angle = (4 * std::atan(1)) - std::abs(atan(slope) - atan(1));
-  l.transform(rotate(angle) * scale(length) * translate(p1.x, p1.y));
+  l.transform(rotate(angle) * scale(length / std::sqrt(2)) * translate(0, 0));
   return l;
 }

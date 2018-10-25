@@ -5,6 +5,8 @@
 namespace Ashkal {
 
   bool equals(const Matrix& a, const Matrix& b, int sig_figures = 15);
+
+  bool equals(double a, double b, int sig_figures = 15);
 }
 
 #endif

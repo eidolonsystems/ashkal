@@ -15,18 +15,10 @@ namespace {
   }
 
   bool check_line(const Point& p1, const Point& p2, const Line& line) {
-    auto p = get_transformed_point(p1, line.get_transformation());
-    if(p.x == p1.x) {
-      if(equals(p.y, p1.y)) {
-        return true;
-      }
-      return false;
-    } else {
-      if(equals(p.x, p2.x) && equals(p.y, p2.y)) {
-        return true;
-      }
-      return false;
-    }
+    auto tp1 = get_transformed_point(p1, line.get_transformation());
+    auto tp2 = get_transformed_point(p2, line.get_transformation());
+    return equals(p1.x, tp1.x) && equals(p1.y, tp1.y) &&
+      equals(p2.x, tp2.x) && equals(p2.y, tp2.y);
   }
 }
 

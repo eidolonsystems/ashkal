@@ -10,13 +10,15 @@ TEST_CASE("Testing Creation of Line from Points", "[make_line]") {
   auto p1 = Point{-2, 2};
   auto p2 = Point{2, -2};
   auto line = make_line(p1, p2);
-  auto inverse = invert(line.get_transformation());
-  auto p1_mat = Matrix(
-    {p1.x, 0, 0},
-    {p1.y, 0, 0},
-    {1, 0, 0});
-  auto a = inverse * p1_mat;
-  REQUIRE(invert(line.get_transformation()) == inverse * p1_mat);
-  auto p3 = Point{0, 0};
-  auto p4 = Point{0, 10};
+  auto& transformation = line.get_transformation();
+  auto x = -0.5 * transformation.get(0, 0) + -0.5 * transformation.get(0, 1) +
+    transformation.get(0, 2);
+  auto y = -0.5 * transformation.get(1, 0) + -0.5 * transformation.get(1, 1) +
+    transformation.get(1, 2);
+  if(x == -2) {
+    REQUIRE(y == 2);
+  } else {
+    REQUIRE(x == 2);
+    REQUIRE(y == -2);
+  }
 }

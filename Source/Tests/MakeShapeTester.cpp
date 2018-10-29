@@ -7,19 +7,9 @@
 using namespace Ashkal;
 
 namespace {
-  Point get_transformed_point(const Point& p, const Matrix& transform,
-      const Point& ref_point) {
-    return Point{ref_point.x * transform.get(0, 0) + ref_point.x *
-      transform.get(0, 1) + transform.get(0, 2),
-      ref_point.y * transform.get(1, 0) + ref_point.y * transform.get(1, 1) +
-      transform.get(1, 2)};
-  }
-
   bool check_line(const Point& p1, const Point& p2, const Line& line) {
-    auto tp1 = get_transformed_point(p1, line.get_transformation(), Point{-0.5,
-      -0.5});
-    auto tp2 = get_transformed_point(p2, line.get_transformation(), Point{0.5,
-      0.5});
+    auto tp1 = line.get_transformation() * Point{-0.5, -0.5};
+    auto tp2 = line.get_transformation() * Point{0.5, 0.5};
     return equals(p1.x, tp1.x) && equals(p1.y, tp1.y) &&
       equals(p2.x, tp2.x) && equals(p2.y, tp2.y);
   }

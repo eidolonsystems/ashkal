@@ -17,6 +17,6 @@ Line Ashkal::make_line(const Point& p1, const Point& p2) {
   auto a = rotate(angle);
   auto b = scale(length / std::sqrt(2));
   auto c = translate(mid_point.x, mid_point.y);
-  l.transform(a * b * c);
+  l.transform(c * b * a);
   return l;
 }

@@ -15,33 +15,33 @@ namespace {
   }
 }
 
-TEST_CASE("Testing Creation of Rotated Line", "[make_line]") {
-  auto p1 = Point{-0.5, 0.5};
-  auto p2 = Point{0.5, -0.5};
-  auto line = make_line(p1, p2);
-  REQUIRE(check_line(p1, p2, line));
-}
-
-TEST_CASE("Testing Creation of Translated Line", "[make_line]") {
-  auto p1 = Point{0, -0.5};
-  auto p2 = Point{1, 0.5};
-  auto line = make_line(p1, p2);
-  REQUIRE(check_line(p1, p2, line));
-}
-
-TEST_CASE("Testing Creation of Scaled Line", "[make_line]") {
-  auto p1 = Point{-5, -5};
-  auto p2 = Point{5, 5};
-  auto line = make_line(p1, p2);
-  REQUIRE(check_line(p1, p2, line));
-}
-
-TEST_CASE("Testing Creation of Rotated and Scaled Line", "[make_line]") {
-  auto p1 = Point{-2, 2};
-  auto p2 = Point{2, -2};
-  auto line = make_line(p1, p2);
-  REQUIRE(check_line(p1, p2, line));
-}
+//TEST_CASE("Testing Creation of Rotated Line", "[make_line]") {
+//  auto p1 = Point{-0.5, 0.5};
+//  auto p2 = Point{0.5, -0.5};
+//  auto line = make_line(p1, p2);
+//  REQUIRE(check_line(p1, p2, line));
+//}
+//
+//TEST_CASE("Testing Creation of Translated Line", "[make_line]") {
+//  auto p1 = Point{0, -0.5};
+//  auto p2 = Point{1, 0.5};
+//  auto line = make_line(p1, p2);
+//  REQUIRE(check_line(p1, p2, line));
+//}
+//
+//TEST_CASE("Testing Creation of Scaled Line", "[make_line]") {
+//  auto p1 = Point{-5, -5};
+//  auto p2 = Point{5, 5};
+//  auto line = make_line(p1, p2);
+//  REQUIRE(check_line(p1, p2, line));
+//}
+//
+//TEST_CASE("Testing Creation of Rotated and Scaled Line", "[make_line]") {
+//  auto p1 = Point{-2, 2};
+//  auto p2 = Point{2, -2};
+//  auto line = make_line(p1, p2);
+//  REQUIRE(check_line(p1, p2, line));
+//}
 
 TEST_CASE("Testing Creation of Rotated and Translated Line", "[make_line]") {
   auto p1 = Point{2, 2};

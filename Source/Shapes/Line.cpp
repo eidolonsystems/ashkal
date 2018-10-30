@@ -9,15 +9,27 @@ void Line::accept(ShapeVisitor& visitor) const {
 
 Line Ashkal::make_line(const Point& p1, const Point& p2) {
   auto l = Line();
-  auto length = std::sqrt(std::pow(std::abs(p1.x - p2.x), 2) +
-    std::pow(std::abs(p1.y - p2.y), 2));
-  auto mid_point = Point{(p1.x + p2.x) / 2, (p1.y + p2.y) / 2};
-  auto slope = (p2.y - p1.y) / (p2.x - p1.x);
-  auto angle = std::atan(std::abs((slope - 1) / (1 + slope)));
-  if(std::abs(slope) > 1) {
-    angle = -angle;
+  auto length = line_length(p1, p2);
+  auto mid_point = midpoint(p1, p2);
+  auto s = slope(p1, p2);
+  auto a = line_angle(s);
+  if(std::abs(s) > 1) {
+    a = -a;
   }
   l.transform(translate(mid_point.x, mid_point.y) *
-    scale(length / std::sqrt(2)) * rotate(angle));
+    scale(length / std::sqrt(2)) * rotate(a));
   return l;
+}
+
+double Ashkal::line_length(const Point& p1, const Point& p2) {
+  return std::sqrt(std::pow(std::abs(p1.x - p2.x), 2) +
+    std::pow(std::abs(p1.y - p2.y), 2));
+}
+
+double Ashkal::slope(const Point& p1, const Point& p2) {
+  return (p2.y - p1.y) / (p2.x - p1.x);
+}
+
+double Ashkal::line_angle(double slope) {
+  return std::atan(std::abs((slope - 1) / (1 + slope)));
 }

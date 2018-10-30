@@ -16,6 +16,13 @@ namespace Ashkal {
     \param p LHS of the multiplication.
   */
   Point operator *(const Matrix& mat, const Point& p);
+
+  //! Returns the midpoint of two Points.
+  /*
+    \param p1 The first point.
+    \param p2 The second point.
+  */
+  Point midpoint(const Point& p1, const Point& p2);
 }
 
 #endif

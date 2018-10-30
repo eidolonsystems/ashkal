@@ -12,11 +12,9 @@ Line Ashkal::make_line(const Point& p1, const Point& p2) {
   auto length = std::sqrt(std::pow(std::abs(p1.x - p2.x), 2) +
     std::pow(std::abs(p1.y - p2.y), 2));
   auto mid_point = Point{(p1.x + p2.x) / 2, (p1.y + p2.y) / 2};
-  auto slope = (p1.y - p2.y) / (p1.x - p2.x);
-  auto angle = PI - std::abs(atan(slope) - atan(1));
-  auto a = rotate(angle);
-  auto b = scale(length / std::sqrt(2));
-  auto c = translate(mid_point.x, mid_point.y);
-  l.transform(c * b * a);
+  auto slope = (p2.y - p1.y) / (p2.x - p1.x);
+  auto angle = std::atan(std::abs((slope - 1) / (1 + slope)));
+  l.transform(translate(mid_point.x, mid_point.y) *
+    scale(length / std::sqrt(2)) * rotate(-angle));
   return l;
 }

@@ -10,8 +10,11 @@ namespace Ashkal {
     double y;
   };
 
-  // multiply matrix by point
-  // mat * pt
+  //! Multiplies a Point by a Matrix.
+  /*
+    \param mat RHS of the multiplication.
+    \param p LHS of the multiplication.
+  */
   Point operator *(const Matrix& mat, const Point& p);
 }
 

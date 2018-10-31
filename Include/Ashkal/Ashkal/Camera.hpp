@@ -1,7 +1,7 @@
 #ifndef ASHKAL_CAMERA_HPP
 #define ASHKAL_CAMERA_HPP
-#include "Ashkal/Ashkal/Point.hpp"
-#include "Ashkal/Shapes/Rectangle.hpp"
+#include "Ashkal/Ashkal/Matrix.hpp"
+#include "Ashkal/Shapes/Square.hpp"
 
 namespace Ashkal {
 
@@ -9,27 +9,19 @@ namespace Ashkal {
   class Camera {
     public:
 
-      //! Constructs a Camera with a region and position of (0, 0);
+      //! Constructs a Camera with size and position of (0, 0).
       Camera();
 
-      //! Constructs a Camera.
+      //! Constructs a Camera with specified transformation.
       /*
-        \param region Defines the width and height of the drawable region.
-        \param pos Defines the position of the drawable region.
+        \param transform The Transformation to apply to the camera.
       */
-      Camera(const Rectangle& region, const Point& pos);
+      Camera(const Matrix& transform);
 
-      const Rectangle& get_region() const;
-
-      void set_region(const Rectangle& region);
-
-      const Point& get_pos() const;
-
-      void set_pos(const Point& pos);
+      const Matrix& get_transformation() const;
 
     private:
-      Rectangle m_region;
-      Point m_pos;
+      Matrix m_transformation;
   };
 }
 

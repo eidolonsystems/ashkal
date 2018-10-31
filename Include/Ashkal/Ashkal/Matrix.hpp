@@ -45,7 +45,7 @@ namespace Ashkal {
 
   //! Returns a rotation matrix about the origin.
   /*
-    \param r The angle of rotation, in radians.
+    \param r The clockwise angle of rotation, in radians.
   */
   Matrix rotate(double r);
 

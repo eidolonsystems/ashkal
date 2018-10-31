@@ -5,28 +5,33 @@
 
 namespace Ashkal {
 
-  //! Represents a Line on a 2D plane.
+  //! Represents a line with enpoints at (-0.5, -0.5) and (0.5, 0.5).
   class Line : public Shape {
     public:
 
-      //! Constructs a Line with the start and end points at the origin.
-      Line();
-
-      //! Constructs a Line with two points, one at the origin and another
-      //! at an arbitrary point.
-      /*
-        \param point The point that determines the length and angle of the Line
-                     relative to the origin.
-      */
-      Line(const Point& point);
-
-      Point get_point() const;
-
       void accept(ShapeVisitor& visitor) const override;
-
-    private:
-      Point m_point;
   };
+
+  //! Creates a line with specified points.
+  /*
+    \param p1 The first point of the line.
+    \param p2 The second point of the line.
+  */
+  Line make_line(const Point& p1, const Point& p2);
+
+  //! Returns the slope of a line, calculated from 2 Points.
+  /*
+    \param p1 The first Point.
+    \param p2 The second Point.
+  */
+  double slope(const Point& p1, const Point& p2);
+
+  //! Returns the angle between the line (-0.5, -0.5), (0.5, 0.5), and the
+  //! line represented by the specified slope.
+  /*
+    \param slope The slope of the specified line.
+  */
+  double line_angle(double slope);
 }
 
 #endif

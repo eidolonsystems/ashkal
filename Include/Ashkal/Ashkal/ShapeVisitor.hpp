@@ -10,9 +10,9 @@ namespace Ashkal {
 
       virtual ~ShapeVisitor() = default;
 
-      virtual void visit(const Ellipse& c) = 0;
+      virtual void visit(const Circle& c) = 0;
       virtual void visit(const Line& l) = 0;
-      virtual void visit(const Rectangle& r) = 0;
+      virtual void visit(const Square& r) = 0;
       virtual void visit(const Triangle& t) = 0;
   };
 }

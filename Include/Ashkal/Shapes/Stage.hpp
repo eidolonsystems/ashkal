@@ -24,7 +24,7 @@ namespace Ashkal {
       Stage& operator =(const Stage&) = delete;
   };
 
-  void render(const Stage& stage, const Point& lens, const Rectangle& region,
+  void render(const Stage& stage, const Point& lens, const Square& region,
     QWidget* widget);
 }
 

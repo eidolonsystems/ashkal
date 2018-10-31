@@ -17,6 +17,13 @@ namespace Ashkal {
   */
   Point operator *(const Matrix& mat, const Point& p);
 
+  //! Returns the distance between two points.
+  /*
+    \param p1 The first Point.
+    \param p2 The second Point.
+  */
+  double distance(const Point& p1, const Point& p2);
+
   //! Returns the midpoint of two Points.
   /*
     \param p1 The first point.

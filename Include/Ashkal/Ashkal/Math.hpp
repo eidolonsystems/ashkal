@@ -4,7 +4,8 @@
 
 namespace Ashkal {
 
-  const double PI = 4 * std::atan(1);
+  //! Represents the mathematical constant Pi.
+  static constexpr double PI = 3.14159265358979323;
 }
 
 #endif

@@ -14,7 +14,7 @@ bool Ashkal::equals(const Matrix& a, const Matrix& b, int sig_figures) {
 }
 
 bool Ashkal::equals(double a, double b, int sig_figures) {
-  if(std::abs(a - b) > std::pow(10, -sig_figures)) {
+  if(std::abs(a - b) > std::pow(10, -(sig_figures - 1))) {
     return false;
   }
   return true;

@@ -19,13 +19,6 @@ namespace Ashkal {
   */
   Line make_line(const Point& p1, const Point& p2);
 
-  //! Returns the length of a line, calculated from 2 Points.
-  /*
-    \param p1 The first Point.
-    \param p2 The second Point.
-  */
-  double line_length(const Point& p1, const Point& p2);
-
   //! Returns the slope of a line, calculated from 2 Points.
   /*
     \param p1 The first Point.

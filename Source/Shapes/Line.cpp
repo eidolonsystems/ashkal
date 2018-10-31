@@ -9,7 +9,7 @@ void Line::accept(ShapeVisitor& visitor) const {
 
 Line Ashkal::make_line(const Point& p1, const Point& p2) {
   auto l = Line();
-  auto length = line_length(p1, p2);
+  auto length = distance(p1, p2);
   auto mid_point = midpoint(p1, p2);
   auto s = slope(p1, p2);
   auto a = line_angle(s);
@@ -19,11 +19,6 @@ Line Ashkal::make_line(const Point& p1, const Point& p2) {
   l.transform(translate(mid_point.x, mid_point.y) *
     scale(length / std::sqrt(2)) * rotate(a));
   return l;
-}
-
-double Ashkal::line_length(const Point& p1, const Point& p2) {
-  return std::sqrt(std::pow(std::abs(p1.x - p2.x), 2) +
-    std::pow(std::abs(p1.y - p2.y), 2));
 }
 
 double Ashkal::slope(const Point& p1, const Point& p2) {

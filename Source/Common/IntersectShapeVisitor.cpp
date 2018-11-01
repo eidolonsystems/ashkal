@@ -48,8 +48,14 @@ bool Ashkal::intersects(const Square& square, const Shape& shape) {
     void visit(const Circle& circle) override {
       auto lines = get_lines(m_square, invert(circle.get_transformation()));
       for(auto& l : lines) {
+        if(distance(l.first, Point{0, 0}) <= 1) {
+          m_intersects = true;
+          return;
+        }
+      }
+      for(auto& l : lines) {
         auto s = slope(l.first, l.second);
-        auto a = 1 + (2 * s);
+        auto a = 1 + (s * s);
         auto y = y_intercept(l.first, s);
         auto b = 2 * y * s;
         auto c = -1 + (y * y);

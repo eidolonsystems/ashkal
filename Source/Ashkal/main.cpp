@@ -1,11 +1,9 @@
 #include <QApplication>
-#include <QLabel>
 #include <QPaintEvent>
 #include <QWidget>
 #include "Ashkal/Ashkal/Point.hpp"
 #include "Ashkal/Ashkal/Resources.hpp"
 #include "Ashkal/Shapes/Circle.hpp"
-#include "Ashkal/Shapes/Line.hpp"
 #include "Ashkal/Shapes/Square.hpp"
 #include "Ashkal/Shapes/Stage.hpp"
 

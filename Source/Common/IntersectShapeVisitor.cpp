@@ -29,10 +29,19 @@ namespace {
     return p.y - (p.x * slope);
   }
 
-  bool is_within_line(double pt1, double pt2, double value) {
+  bool is_within_value(double pt1, double pt2, double value) {
     auto high = std::max(pt1, pt2);
     auto low = std::min(pt1, pt2);
     return std::clamp(value, low, high) == value;
+  }
+
+  bool rect_contains(const std::array<std::pair<Point, Point>, 4> lines,
+      const Point& pt) {
+    if(is_within_value(lines[0].first.x, lines[1].first.x, pt.x) &&
+        is_within_value(lines[0].first.y, lines[3].first.y, pt.y)) {
+      return true;
+    }
+    return false;
   }
 }
 
@@ -62,25 +71,27 @@ bool Ashkal::intersects(const Square& square, const Shape& shape) {
         auto root1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
         auto root2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
         if(s == 0) {
-          if(is_within_line(l.first.x, l.second.x, root1) ||
-              is_within_line(l.first.x, l.second.x, root2)) {
+          if(is_within_value(l.first.x, l.second.x, root1) ||
+              is_within_value(l.first.x, l.second.x, root2)) {
             m_intersects = true;
             return;
           }
         } else if(std::isnan(s)) {
-          if(is_within_line(l.first.y, l.second.y, root1) ||
-              is_within_line(l.first.y, l.second.y, root2)) {
+          if(is_within_value(l.first.y, l.second.y, root1) ||
+              is_within_value(l.first.y, l.second.y, root2)) {
             m_intersects = true;
             return;
           }
-        } else {
-          if((is_within_line(l.first.x, l.second.x, root1) &&
-              is_within_line(l.first.y, l.second.y, root1)) ||
-              is_within_line(l.first.x, l.second.x, root2) &&
-              is_within_line(l.first.y, l.second.y, root2)) {
-            m_intersects = true;
-            return;
-          }
+        }
+        if((is_within_value(l.first.x, l.second.x, root1) &&
+            is_within_value(l.first.y, l.second.y, root1)) ||
+            is_within_value(l.first.x, l.second.x, root2) &&
+            is_within_value(l.first.y, l.second.y, root2)) {
+          m_intersects = true;
+          return;
+        }
+        if(rect_contains(lines, Point{0, 0})) {
+          m_intersects = true;
         }
       }
     }

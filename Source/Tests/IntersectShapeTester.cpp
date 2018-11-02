@@ -13,12 +13,11 @@ TEST_CASE("Testing Intersection of Square and Circle", "[intersects]") {
   REQUIRE(intersects(square, circle));
 }
 
-TEST_CASE("Testing Intersection of Inscribed Square and Circle",
+TEST_CASE("Testing Intersection of Square Inscribed in Circle",
     "[intersects]") {
   auto circle = Circle();
   auto square = Square();
-  circle.transform(translate(-6, 10) * scale(2) *
-    rotate(0.7854));
+  circle.transform(translate(-6, 10) * scale(2) * rotate(0.7854));
   square.transform(translate(-6, 10));
   REQUIRE(intersects(square, circle));
 }
@@ -36,7 +35,7 @@ TEST_CASE("Testing Intersection of Circle with Top of Square",
     "[intersects]") {
   auto circle = Circle();
   auto square = Square();
-  square.transform(translate(0, 0.75) * scale(5, 1));
+  square.transform(translate(0, 0.45) * scale(5, 1));
   REQUIRE(intersects(square, circle));
 }
 
@@ -44,7 +43,7 @@ TEST_CASE("Testing Intersection of Circle with Side of Square",
     "[intersects]") {
   auto circle = Circle();
   auto square = Square();
-  square.transform(translate(0.75, 0) * scale(1, 5));
+  square.transform(translate(0.45, 0) * scale(1, 5));
   REQUIRE(intersects(square, circle));
 }
 

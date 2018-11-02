@@ -9,7 +9,7 @@ namespace Ashkal {
   class Camera {
     public:
 
-      //! Constructs a Camera with size and position of (0, 0).
+      //! Constructs a Camera with size of 1x1 and position of (0, 0).
       Camera();
 
       //! Constructs a Camera with specified transformation.
@@ -19,6 +19,8 @@ namespace Ashkal {
       Camera(const Matrix& transform);
 
       const Matrix& get_transformation() const;
+
+      void transform(const Matrix& m);
 
     private:
       Matrix m_transformation;

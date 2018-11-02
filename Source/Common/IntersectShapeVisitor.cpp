@@ -26,21 +26,20 @@ namespace {
   }
 
   bool is_within_value(double pt1, double pt2, double value) {
-    auto high = std::max(pt1, pt2);
-    auto low = std::min(pt1, pt2);
-    return std::clamp(value, low, high) == value;
+    auto ordered_pts = std::minmax(pt1, pt2);
+    return std::clamp(value, ordered_pts.first, ordered_pts.second) == value;
   }
 
   bool rect_contains(const std::array<std::pair<Point, Point>, 4> lines,
       const Point& pt) {
     return is_within_value(lines[0].first.x, lines[1].first.x, pt.x) &&
-        is_within_value(lines[0].first.y, lines[3].first.y, pt.y);
+      is_within_value(lines[0].first.y, lines[3].first.y, pt.y);
   }
 }
 
-bool Ashkal::intersects(Square& square, const Shape& shape) {
+bool Ashkal::intersects(const Square& square, const Shape& shape) {
   struct Visitor final : ShapeVisitor {
-    bool operator()(Square& square, const Shape& shape) {
+    bool operator()(const Square& square, const Shape& shape) {
       m_intersects = false;
       m_square = &square;
       shape.accept(*this);
@@ -55,29 +54,26 @@ bool Ashkal::intersects(Square& square, const Shape& shape) {
           return;
         }
       }
-      for(auto& l : lines) {
-        auto s = slope(l.first, l.second);
+      for(auto& line : lines) {
+        auto s = slope(line.first, line.second);
         auto a = 1 + (s * s);
-        auto y = y_intercept(l.first, s);
+        auto y = y_intercept(line.first, s);
         auto b = 2 * y * s;
         auto c = -1 + (y * y);
         auto root1 = (-b + std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
         auto root2 = (-b - std::sqrt(std::pow(b, 2) - (4 * a * c))) / (2 * a);
-        if(s == 0 && is_within_value(l.first.x, l.second.x, root1) ||
-            is_within_value(l.first.x, l.second.x, root2)) {
+        if(s == 0 && (is_within_value(line.first.x, line.second.x, root1) ||
+            is_within_value(line.first.x, line.second.x, root2))) {
           m_intersects = true;
-          return;
         } else if(std::isnan(s) &&
-            is_within_value(l.first.y, l.second.y, root1) ||
-            is_within_value(l.first.y, l.second.y, root2)) {
+            (is_within_value(line.first.y, line.second.y, root1) ||
+            is_within_value(line.first.y, line.second.y, root2))) {
           m_intersects = true;
-          return;
-        } else if((is_within_value(l.first.x, l.second.x, root1) &&
-            is_within_value(l.first.y, l.second.y, root1)) ||
-            is_within_value(l.first.x, l.second.x, root2) &&
-            is_within_value(l.first.y, l.second.y, root2)) {
+        } else if((is_within_value(line.first.x, line.second.x, root1) &&
+            is_within_value(line.first.y, line.second.y, root1)) ||
+            is_within_value(line.first.x, line.second.x, root2) &&
+            is_within_value(line.first.y, line.second.y, root2)) {
           m_intersects = true;
-          return;
         } else if(rect_contains(lines, Point{0, 0})) {
           m_intersects = true;
         }
@@ -97,7 +93,7 @@ bool Ashkal::intersects(Square& square, const Shape& shape) {
     }
 
     bool m_intersects;
-    Square* m_square;
+    const Square* m_square;
   };
   return Visitor()(square, shape);
 }

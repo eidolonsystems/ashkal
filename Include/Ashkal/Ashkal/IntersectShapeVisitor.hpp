@@ -10,7 +10,7 @@ namespace Ashkal {
     \param square The Square to check for intersection with the Shape.
     \param shape The Shape to check for intersection with the Square.
   */
-  bool intersects(Square& square, const Shape& shape);
+  bool intersects(const Square& square, const Shape& shape);
 }
 
 #endif

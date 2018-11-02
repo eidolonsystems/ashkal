@@ -15,7 +15,7 @@ namespace Ashkal {
 
       //! Returns the vector of shapes and their positions.
       const std::vector<std::pair<std::unique_ptr<Shape>, Point>>&
-        getShapes() const;
+        get_shapes() const;
 
     private:
       std::vector<std::pair<std::unique_ptr<Shape>, Point>> m_shapes;
@@ -24,7 +24,13 @@ namespace Ashkal {
       Stage& operator =(const Stage&) = delete;
   };
 
-  void render(const Stage& stage, const Point& lens, const Square& region,
+  //! Renders a Stage onto a QWidget.
+  /*
+    \param stage The Stage to render.
+    \param camera Determines which Shapes on the Stage to render.
+    \param widget The widget to render the stage onto.
+  */
+  void render(const Stage& stage, const Square& camera,
     QWidget* widget);
 }
 

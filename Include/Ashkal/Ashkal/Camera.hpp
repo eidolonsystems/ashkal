@@ -14,12 +14,17 @@ namespace Ashkal {
 
       //! Constructs a Camera with specified transformation.
       /*
-        \param transform The Transformation to apply to the camera.
+        \param transform The transformation to apply to the camera.
       */
       Camera(const Matrix& transform);
 
+      //! Returns the transformation applied to this Camera.
       const Matrix& get_transformation() const;
 
+      //! Applies a transformation to this Camera.
+      /*
+        \param m The transformation to apply.
+      */
       void transform(const Matrix& m);
 
     private:

@@ -76,7 +76,8 @@ bool Ashkal::intersects(const Square& square, const Shape& shape) {
             m_intersects = true;
             return;
           }
-        } else if(std::isnan(s)) {
+        }
+        if(std::isnan(s)) {
           if(is_within_value(l.first.y, l.second.y, root1) ||
               is_within_value(l.first.y, l.second.y, root2)) {
             m_intersects = true;

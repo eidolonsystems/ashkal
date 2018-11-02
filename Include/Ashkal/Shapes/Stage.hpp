@@ -2,6 +2,7 @@
 #define ASHKAL_STAGE_HPP
 #include "Ashkal/Shapes/Shapes.hpp"
 #include "Ashkal/Ashkal/Point.hpp"
+class QWidget;
 
 namespace Ashkal {
 

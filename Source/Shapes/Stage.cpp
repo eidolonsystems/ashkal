@@ -19,8 +19,10 @@ namespace {
     pixel.transform(
       scale(camera.get_transformation().get(0, 0) / width,
       camera.get_transformation().get(1, 1) / height));
-    auto px = mapTo(x, 0, width - 1, -0.5, 0.5);
-    auto py = mapTo(y, 0, height - 1,  0.5, -0.5);
+    auto top_left = camera.get_transformation() * Point{-0.5, 0.5};
+    auto bottom_right = camera.get_transformation() * Point{0.5, -0.5};
+    auto px = mapTo(x, 0, width - 1, top_left.x, bottom_right.x);
+    auto py = mapTo(y, 0, height - 1,  top_left.y, bottom_right.y);
     pixel.transform(translate(px, py));
     return pixel;
   }
@@ -37,17 +39,20 @@ const vector<pair<unique_ptr<Shape>, Point>>& Stage::get_shapes() const {
 void Ashkal::render(const Stage& stage, const Square& camera,
     QWidget* widget) {
   auto painter = QPainter(widget);
-
+  painter.fillRect(0, 0, widget->width(), widget->height(), Qt::white);
+  painter.setPen(Qt::black);
   for(auto i = 0; i < widget->width(); ++i) {
     for(auto j = 0; j < widget->height(); ++j) {
+      auto pixel = pixelToSquare(camera, widget->width(), widget->height(),
+        i, j);
+      auto in = false;
       for(auto& shape : stage.get_shapes()) {
-        auto pixel = pixelToSquare(camera, widget->width(), widget->height(),
-          i, j);
         if(intersects(pixel, *shape.first)) {
-          painter.setPen(Qt::white);
-        } else {
-          painter.setPen(Qt::black);
+          in = true;
+          break;
         }
+      }
+      if(in) {
         painter.drawPoint(i, j);
       }
     }

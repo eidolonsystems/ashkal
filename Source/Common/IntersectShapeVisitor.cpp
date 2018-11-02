@@ -48,6 +48,10 @@ bool Ashkal::intersects(const Square& square, const Shape& shape) {
 
     void visit(const Circle& circle) override {
       auto lines = get_lines(*m_square, invert(circle.get_transformation()));
+      if(rect_contains(lines, Point{0, 0})) {
+        m_intersects = true;
+        return;
+      }
       for(auto& line : lines) {
         if(distance(line.first, Point{0, 0}) <= 1) {
           m_intersects = true;
@@ -73,8 +77,6 @@ bool Ashkal::intersects(const Square& square, const Shape& shape) {
             is_within_value(line.first.y, line.second.y, root1)) ||
             is_within_value(line.first.x, line.second.x, root2) &&
             is_within_value(line.first.y, line.second.y, root2)) {
-          m_intersects = true;
-        } else if(rect_contains(lines, Point{0, 0})) {
           m_intersects = true;
         }
       }

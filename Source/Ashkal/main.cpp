@@ -38,9 +38,10 @@ int main(int argc, char** argv) {
   application.setApplicationVersion("1.0");
   initialize_resources();
   auto camera = Square();
+  camera.transform(translate(2, 0) * scale(5));
   auto stage = Stage();
   auto circle = std::make_unique<Circle>();
-  circle->transform(scale(0.1));
+  circle->transform(rotate(0.78) * scale(0.4, 0.1));
   stage.add_shape(std::move(circle), Point{0,0});
   auto w = new RenderedWidget(1000, 1000, camera, &stage);
   w->show();

@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QWidget>
 #include "Ashkal/Ashkal/IntersectShapeVisitor.hpp"
+#include "Ashkal/Ashkal/Point.hpp"
 #include "Ashkal/Shapes/Shape.hpp"
 #include "Ashkal/Shapes/Square.hpp"
 
@@ -28,11 +29,11 @@ namespace {
   }
 }
 
-void Stage::add_shape(unique_ptr<Shape> shape, const Point& point) {
-  m_shapes.push_back(pair(std::move(shape), point));
+void Stage::add_shape(unique_ptr<Shape> shape) {
+  m_shapes.push_back(std::move(shape));
 }
 
-const vector<pair<unique_ptr<Shape>, Point>>& Stage::get_shapes() const {
+const vector<unique_ptr<Shape>>& Stage::get_shapes() const {
   return m_shapes;
 }
 
@@ -45,15 +46,11 @@ void Ashkal::render(const Stage& stage, const Square& camera,
     for(auto j = 0; j < widget->height(); ++j) {
       auto pixel = pixelToSquare(camera, widget->width(), widget->height(),
         i, j);
-      auto in = false;
       for(auto& shape : stage.get_shapes()) {
-        if(intersects(pixel, *shape.first)) {
-          in = true;
+        if(intersects(pixel, *shape)) {
+          painter.drawPoint(i, j);
           break;
         }
-      }
-      if(in) {
-        painter.drawPoint(i, j);
       }
     }
   }

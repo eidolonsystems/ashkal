@@ -23,7 +23,7 @@ namespace Ashkal {
       const Matrix& get_transformation() const;
 
     protected:
-      //! Constructs a Shape with an identity matrix as the default
+      //! Constructs a Shape with an identity matrix as the initial
       //! transformation.
       Shape();
 

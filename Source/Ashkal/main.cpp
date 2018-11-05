@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QPaintEvent>
 #include <QWidget>
-#include "Ashkal/Ashkal/Point.hpp"
 #include "Ashkal/Ashkal/Resources.hpp"
 #include "Ashkal/Shapes/Circle.hpp"
 #include "Ashkal/Shapes/Square.hpp"
@@ -40,7 +39,7 @@ int main(int argc, char** argv) {
   auto stage = Stage();
   auto circle = std::make_unique<Circle>();
   circle->transform(rotate(0.78) * scale(0.4, 0.1));
-  stage.add_shape(std::move(circle), Point{0,0});
+  stage.add_shape(std::move(circle));
   auto w = new RenderedWidget(1000, 1000, camera, &stage);
   w->show();
   application.exec();

@@ -15,8 +15,7 @@ namespace Ashkal {
       void add_shape(std::unique_ptr<Shape> shape);
 
       //! Returns the vector of shapes.
-      const std::vector<std::unique_ptr<Shape>>&
-        get_shapes() const;
+      const std::vector<std::unique_ptr<Shape>>& get_shapes() const;
 
     private:
       std::vector<std::unique_ptr<Shape>> m_shapes;

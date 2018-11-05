@@ -13,15 +13,18 @@ namespace Ashkal {
 
       virtual void accept(ShapeVisitor& visitor) const = 0;
 
-      // Applies a transformation to this Shape.
+      //! Applies a transformation to this Shape.
+      /*
+        \param m The transformation to apply.
+      */
       void transform(const Matrix& m);
 
-      // Returns the transformation applied to this Shape.
+      //! Returns the transformation applied to this Shape.
       const Matrix& get_transformation() const;
 
     protected:
-      // Constructs a Shape with an identity matrix as the default
-      // transformation.
+      //! Constructs a Shape with an identity matrix as the initial
+      //! transformation.
       Shape();
 
     private:
